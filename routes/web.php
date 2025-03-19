@@ -4,10 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\AdminController;
+use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function () {
-    return view('home');
-})->middleware('auth');
+
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/login'); // Redirige a la vista "login"
+})->name('logout');
+
 
 
 Route::get('/register', [RegisterController::class, 'create'])
@@ -34,4 +38,5 @@ Route::get('/logout', [SessionsController::class, 'destroy'])
 Route::get('/admin', [AdminController::class, 'index'])
     ->middleware('auth.admin')
     ->name('admin.index');
+    
 
