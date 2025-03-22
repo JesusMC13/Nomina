@@ -7,6 +7,11 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 
 
+
+Route::get('/', function () {
+    return view('home'); // Redirige a home.blade.php
+})->name('home');
+
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/login'); // Redirige a la vista "login"
@@ -38,5 +43,5 @@ Route::get('/logout', [SessionsController::class, 'destroy'])
 Route::get('/admin', [AdminController::class, 'index'])
     ->middleware('auth.admin')
     ->name('admin.index');
-    
+
 
