@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Administrador - Dashboard</title>
+    <title>Empleado - Dashboard</title>
     <link href="{{ asset('theme/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('theme/css/sb-admin-2.min.css') }}" rel="stylesheet">
 </head>
@@ -13,71 +13,60 @@
     <div id="wrapper">
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('empleado.dashboard') }}">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-user-cog"></i>
+                    <i class="fas fa-user"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Administrador</div>
+                <div class="sidebar-brand-text mx-3">Empleado</div>
             </a>
             <hr class="sidebar-divider my-0">
-            <div class="sidebar-heading">Gestión de Nómina</div>
+            <div class="sidebar-heading">Acciones del Usuario</div>
 
-            <!-- Turnos -->
+            <!-- Consulta de Turnos y Horarios -->
             <li class="nav-item">
-                <a class="nav-link" href="turnos.html">
+                <a class="nav-link" href="#">
                     <i class="fas fa-calendar-alt"></i>
-                    <span>Turnos</span>
+                    <span>Consulta de Turnos y Horarios</span>
                 </a>
             </li>
 
-            <!-- Días de Descanso -->
+            <!-- Consulta de Días de Descanso -->
             <li class="nav-item">
-            <a class="nav-link" href="{{ route('adminn.dias_descanso.create') }}">
-                <i class="fas fa-bed"></i>
-                <span>Días de Descanso</span>
-            </a>
-
-
+                <a class="nav-link" href="#">
+                    <i class="fas fa-bed"></i>
+                    <span>Consulta de Días de Descanso</span>
+                </a>
             </li>
 
-
-            <!-- Horas Extras -->
+            <!-- Registro Personal -->
             <li class="nav-item">
-                <a class="nav-link" href="horas-extras.html">
+                <a class="nav-link" href="#">
                     <i class="fas fa-clock"></i>
-                    <span>Horas Extras</span>
+                    <span>Registro Personal</span>
                 </a>
             </li>
 
-            <!-- Descuentos -->
+            <!-- Solicitudes de Justificación -->
             <li class="nav-item">
-                <a class="nav-link" href="descuentos.html">
-                    <i class="fas fa-percentage"></i>
-                    <span>Descuentos</span>
+                <a class="nav-link" href="#">
+                    <i class="fas fa-envelope"></i>
+                    <span>Solicitudes de Justificación</span>
                 </a>
             </li>
 
-            <!-- Reportes de Nómina -->
+            <!-- Consulta de Nómina -->
             <li class="nav-item">
-                <a class="nav-link" href="reportes.html">
+                <a class="nav-link" href="#">
                     <i class="fas fa-file-invoice-dollar"></i>
-                    <span>Reportes de Nómina</span>
+                    <span>Consulta de Nómina</span>
                 </a>
             </li>
 
-            <!-- Justificaciones (Nueva sección recomendada) -->
+            <!-- Historial Personal -->
             <li class="nav-item">
-                <a class="nav-link" href="justificaciones.html">
-                    <i class="fas fa-file-alt"></i>
-                    <span>Justificaciones</span>
-                </a>
-            </li>
-
-            <!-- Control de Asistencia (Nueva sección recomendada) -->
-            <li class="nav-item">
-                <a class="nav-link" href="asistencias.html">
-                    <i class="fas fa-users"></i>
-                    <span>Control de Asistencia</span>
+                <a class="nav-link" href="#">
+                    <i class="fas fa-history"></i>
+                    <span>Historial Personal</span>
                 </a>
             </li>
 
@@ -86,6 +75,7 @@
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
         </ul>
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
@@ -95,37 +85,46 @@
                     </button>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Uriel</span>
-                                <img class="img-profile rounded-circle" src="https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_400,h_400/https:/appsdejoseluis.com/wp-content/uploads/2020/04/face_co.png">
+                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->name }}</span>
+
+                                <!-- Aquí se verifica el género para mostrar el avatar adecuado -->
+                                @if(auth()->user()->gender == 'mujer')
+                                    <img class="img-profile rounded-circle" src="https://i.pinimg.com/474x/6d/5e/38/6d5e38d19bf4c0c9554b1e6beab75952.jpg">
+                                @else
+                                    <img class="img-profile rounded-circle" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKYRbTui6o8jHIqLFc3hpN-4ItYVRSV5j-8hSTTKLzjVg1tHWTa2__5bmp25TA56gFXhQ&usqp=CAU">
+                                @endif
                             </a>
+
+
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
-
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}" 
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Cerrar Sesión
                                 </a>
                             </div>
-
                         </li>
                     </ul>
                 </nav>
                 <div class="container-fluid">
                     <h1 class="h3 mb-4 text-gray-800">Panel de Control</h1>
+                    <!-- Aquí pueden ir las notificaciones o alertas específicas del empleado -->
                 </div>
             </div>
         </div>
     </div>
+
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+
     <script src="{{ asset('theme/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('theme/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('theme/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('theme/js/sb-admin-2.min.js') }}"></script>
 </body>
+
 </html>

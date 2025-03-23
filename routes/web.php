@@ -5,6 +5,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\DiaDescansoController;
 
 
 
@@ -44,4 +45,17 @@ Route::get('/admin', [AdminController::class, 'index'])
     ->middleware('auth.admin')
     ->name('admin.index');
 
-
+    Route::middleware('auth')->group(function () {
+        // Ruta principal del dashboard del empleado
+        Route::get('/empleado/dashboard', function () {
+            return view('user_dashboard');
+        })->name('empleado.dashboard');
+    });
+    
+    Route::middleware(['auth', 'auth.admin'])->prefix('adminn')->name('adminn.')->group(function () {
+        Route::resource('dias_descanso', DiaDescansoController::class);
+    });
+    
+    
+    
+    

@@ -4,20 +4,16 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
-class DatabaseSeeder extends Seeder {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
-    public function run() {
-        // \App\Models\User::factory(10)->create();
-   
+class DatabaseSeeder extends Seeder
+{
+    public function run()
+    {
         $user = new User;
         $user->name = 'Admin';
         $user->email = 'angelestrada12@gmail.com';
-        $user->password = '12345678';
+        $user->password = Hash::make('12345678'); // Hashea la contraseña
         $user->role = 'admin';
 
         $user->save();
