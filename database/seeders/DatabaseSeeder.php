@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -10,12 +9,24 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        $user = new User;
-        $user->name = 'Admin';
-        $user->email = 'angelestrada12@gmail.com';
-        $user->password = Hash::make('12345678'); // Hashea la contraseña
-        $user->role = 'admin';
+        // Crear usuario Admin si no existe
+        User::firstOrCreate(
+            ['email' => 'angelestrada12@gmail.com'],
+            [
+                'name' => 'Admin',
+                'password' => Hash::make('12345678'),
+                'role' => 'admin',
+            ]
+        );
 
-        $user->save();
+        // Crear otro usuario 
+        User::firstOrCreate(
+            ['email' => 'usuario2@gmail.com'],
+            [
+                'name' => 'Usuario 2',
+                'password' => Hash::make('87654321'),
+                'role' => 'user',
+            ]
+        );
     }
 }

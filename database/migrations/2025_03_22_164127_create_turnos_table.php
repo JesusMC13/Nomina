@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -6,14 +7,11 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up() {
         Schema::create('turnos', function (Blueprint $table) {
-            $table->id('ID_turno');
-            $table->unsignedBigInteger('ID_empleado');
-            $table->string('turno');
-            $table->date('fecha_inicio');
-            $table->date('fecha_fin');
-            $table->timestamps();
-
-            $table->foreign('ID_empleado')->references('ID_empleado')->on('empleados')->onDelete('cascade');
+            $table->id('ID_turno'); // Clave primaria
+            $table->string('nombre_turno'); // Nombre del turno
+            $table->time('hora_entrada'); // Hora de entrada
+            $table->time('hora_salida'); // Hora de salida
+            $table->timestamps(); // created_at y updated_at
         });
     }
 
@@ -21,4 +19,3 @@ return new class extends Migration {
         Schema::dropIfExists('turnos');
     }
 };
-
