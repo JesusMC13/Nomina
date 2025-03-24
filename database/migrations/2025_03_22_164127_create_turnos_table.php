@@ -6,11 +6,14 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up() {
         Schema::create('turnos', function (Blueprint $table) {
-            $table->id('ID_turno');
-            $table->string('nombre_turno', 50)->unique();
-            $table->time('hora_entrada');
-            $table->time('hora_salida');
+            $table->id();
+            $table->unsignedBigInteger('ID_empleado');
+            $table->string('turno');
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin');
             $table->timestamps();
+
+            $table->foreign('ID_empleado')->references('ID_empleado')->on('empleados')->onDelete('cascade');
         });
     }
 
@@ -18,3 +21,4 @@ return new class extends Migration {
         Schema::dropIfExists('turnos');
     }
 };
+

@@ -22,62 +22,64 @@
             <hr class="sidebar-divider my-0">
             <div class="sidebar-heading">Gestión de Nómina</div>
 
-            <!-- Turnos -->
-            <li class="nav-item">
-                <a class="nav-link" href="turnos.html">
+            <!-- Gestión de Turnos y Horarios -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="turnosDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-calendar-alt"></i>
-                    <span>Turnos</span>
+                    <span>Gestión de Turnos y Horarios</span>
                 </a>
+                <div class="dropdown-menu" aria-labelledby="turnosDropdown">
+                    <a class="dropdown-item" href="{{ route('adminn.turnos.index') }}">Ver Turnos</a>
+                    <a class="dropdown-item" href="{{ route('adminn.asignar.turnos') }}">Asignar Turnos a Empleados</a>
+                    <a class="dropdown-item" href="{{ route('adminn.modificar.turnos') }}">Modificar Turnos Semanalmente</a>
+                </div>
             </li>
 
-            <!-- Días de Descanso -->
-            <li class="nav-item">
-            <a class="nav-link" href="{{ route('adminn.dias_descanso.create') }}">
-                <i class="fas fa-bed"></i>
-                <span>Días de Descanso</span>
-            </a>
-
-
-            </li>
-
-
-            <!-- Horas Extras -->
-            <li class="nav-item">
-                <a class="nav-link" href="horas-extras.html">
-                    <i class="fas fa-clock"></i>
-                    <span>Horas Extras</span>
+            <!-- Gestión de Días de Descanso -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="descansoDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-bed"></i>
+                    <span>Gestión de Días de Descanso</span>
                 </a>
+                <div class="dropdown-menu" aria-labelledby="descansoDropdown">
+                    <a class="dropdown-item" href="{{route('adminn.dias_descanso.index')}}">Asignar días de descanso semanales a cada empleado.</a>
+                </div>
             </li>
 
-            <!-- Descuentos -->
-            <li class="nav-item">
-                <a class="nav-link" href="descuentos.html">
-                    <i class="fas fa-percentage"></i>
-                    <span>Descuentos</span>
+            <!-- Registro de Asistencias -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="asistenciasDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-users"></i>
+                    <span>Registro de Asistencias</span>
                 </a>
+                <div class="dropdown-menu" aria-labelledby="asistenciasDropdown">
+                    <a class="dropdown-item" href="asistencias.html">Consultar Asistencias</a>
+                    <a class="dropdown-item" href="tardanzas.html">Ver Tardanzas</a>
+                    <a class="dropdown-item" href="descuentos_tardanza.html">Aplicar Descuentos por Tardanza</a>
+                </div>
             </li>
 
-            <!-- Reportes de Nómina -->
-            <li class="nav-item">
-                <a class="nav-link" href="reportes.html">
-                    <i class="fas fa-file-invoice-dollar"></i>
-                    <span>Reportes de Nómina</span>
-                </a>
-            </li>
-
-            <!-- Justificaciones (Nueva sección recomendada) -->
+            <!-- Gestión de Justificaciones -->
             <li class="nav-item">
                 <a class="nav-link" href="justificaciones.html">
                     <i class="fas fa-file-alt"></i>
-                    <span>Justificaciones</span>
+                    <span>Gestión de Justificaciones</span>
                 </a>
             </li>
 
-            <!-- Control de Asistencia (Nueva sección recomendada) -->
+            <!-- Gestión de Descuentos -->
             <li class="nav-item">
-                <a class="nav-link" href="asistencias.html">
-                    <i class="fas fa-users"></i>
-                    <span>Control de Asistencia</span>
+                <a class="nav-link" href="descuentos.html">
+                    <i class="fas fa-percentage"></i>
+                    <span>Gestión de Descuentos</span>
+                </a>
+            </li>
+
+            <!-- Cálculo de Nómina -->
+            <li class="nav-item">
+                <a class="nav-link" href="calculo_nomina.html">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Cálculo de Nómina</span>
                 </a>
             </li>
 
@@ -86,6 +88,7 @@
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
         </ul>
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
@@ -114,15 +117,18 @@
                         </li>
                     </ul>
                 </nav>
+
                 <div class="container-fluid">
                     <h1 class="h3 mb-4 text-gray-800">Panel de Control</h1>
                 </div>
             </div>
         </div>
     </div>
+
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+
     <script src="{{ asset('theme/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('theme/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('theme/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
