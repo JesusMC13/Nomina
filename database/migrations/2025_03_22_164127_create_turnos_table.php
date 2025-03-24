@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up() {
         Schema::create('turnos', function (Blueprint $table) {
-            $table->id();
+            $table->id('ID_turno');
             $table->unsignedBigInteger('ID_empleado');
             $table->string('turno');
             $table->date('fecha_inicio');

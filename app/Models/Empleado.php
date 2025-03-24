@@ -26,5 +26,9 @@ class Empleado extends Model
         'apellido_materno',
         'id_puesto',
     ];
+    public function diasDescanso()
+    {
+        return $this->belongsToMany(DiaDescanso::class, 'empleado_dias_descanso', 'empleado_id', 'dia_descanso_id');
+    }
 }
 

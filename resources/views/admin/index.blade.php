@@ -37,14 +37,15 @@
 
             <!-- Gestión de Días de Descanso -->
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="descansoDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-bed"></i>
+                <a class="nav-link dropdown-toggle" href="#" id="diasDescansoDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-calendar-alt"></i>
                     <span>Gestión de Días de Descanso</span>
                 </a>
-                <div class="dropdown-menu" aria-labelledby="descansoDropdown">
-                    <a class="dropdown-item" href="{{route('adminn.dias_descanso.index')}}">Asignar días de descanso semanales a cada empleado.</a>
+                <div class="dropdown-menu" aria-labelledby="diasDescansoDropdown">
+                    <a class="dropdown-item" href="{{ route('adminn.asignardiasdescanso.index') }}">Asignar días de descanso semanales a cada empleado.</a>
                 </div>
             </li>
+
 
             <!-- Registro de Asistencias -->
             <li class="nav-item dropdown">

@@ -82,11 +82,26 @@ Route::middleware(['auth', 'auth.admin'])->prefix('adminn')->name('adminn.')->gr
     Route::post('/modificar-turno/{ID_empleado}', [ModificarTurnoController::class, 'modificarTurno'])->name('modificar.turno');
 });
 
-Route::middleware(['auth', 'auth.admin'])->prefix('adminn')->name('adminn.')->group(function () {
-    Route::get('/asignar-dias-descanso', [AsignarDiasDescansoController::class, 'index'])->name('asignar.dias.descanso'); // Listado de empleados
-    Route::get('/asignar-dias-descanso/{ID_empleado}', [AsignarDiasDescansoController::class, 'showAsignarDescansoForm'])->name('asignar.dias.descanso.form'); // Formulario de asignación de días de descanso
-    Route::post('/asignar-dias-descanso/{ID_empleado}', [AsignarDiasDescansoController::class, 'asignarDescanso'])->name('asignar.dias.descanso'); // Procesar asignación de días de descanso
+Route::prefix('adminn/asignardiasdescanso')->group(function () {
+    Route::get('/', [AsignarDiasDescansoController::class, 'index'])->name('adminn.asignardiasdescanso.index');
+    Route::get('/create', [AsignarDiasDescansoController::class, 'create'])->name('adminn.asignardiasdescanso.create');
+    Route::post('/store', [AsignarDiasDescansoController::class, 'store'])->name('adminn.asignardiasdescanso.store');
+    Route::get('/edit/{id}', [AsignarDiasDescansoController::class, 'edit'])->name('adminn.asignardiasdescanso.edit');
+    Route::put('/update/{id}', [AsignarDiasDescansoController::class, 'update'])->name('adminn.asignardiasdescanso.update');
+    Route::delete('/destroy/{id}', [AsignarDiasDescansoController::class, 'destroy'])->name('adminn.asignardiasdescanso.destroy');
 });
+
+
+
+Route::prefix('adminn/asignardiasdescanso')->group(function () {
+    Route::get('/', [AsignarDiasDescansoController::class, 'index'])->name('adminn.asignardiasdescanso.index');
+    Route::get('/create', [AsignarDiasDescansoController::class, 'create'])->name('adminn.asignardiasdescanso.create');
+    Route::post('/store', [AsignarDiasDescansoController::class, 'store'])->name('adminn.asignardiasdescanso.store');
+    Route::get('/edit/{id}', [AsignarDiasDescansoController::class, 'edit'])->name('adminn.asignardiasdescanso.edit');
+    Route::put('/update/{id}', [AsignarDiasDescansoController::class, 'update'])->name('adminn.asignardiasdescanso.update');
+    Route::delete('/destroy/{id}', [AsignarDiasDescansoController::class, 'destroy'])->name('adminn.asignardiasdescanso.destroy');
+});
+
 
 
 

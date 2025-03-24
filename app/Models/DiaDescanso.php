@@ -14,4 +14,8 @@ class DiaDescanso extends Model
     public $timestamps = true; // Si usas created_at y updated_at
 
     protected $fillable = ['nombre_dia']; // Los campos que se pueden asignar masivamente
+    public function empleados()
+    {
+        return $this->belongsToMany(Empleado::class, 'empleado_dias_descanso', 'dia_descanso_id', 'empleado_id');
+    }
 }
