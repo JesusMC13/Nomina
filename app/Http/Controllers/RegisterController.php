@@ -12,16 +12,25 @@ class RegisterController extends Controller {
         return view('auth.register');
     }
 
-    public function store() {
+    public function store(Request $request) {
 
         $this->validate(request(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed',
+            'nombre' => 'required|string|max:255',
+            'apellido_paterno' => 'required|string|max:255',
+            'apellido_materno' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8|confirmed',
         ]);
-
-        $user = User::create(request(['name', 'email', 'password']));
-
+        
+        $user = User::create([
+            'name' => request('nombre') . ' ' . request('apellido_paterno') . ' ' . request('apellido_materno'),
+            'email' => request('email'),
+            'password' => request('password'), // Se encripta automáticamente en el modelo
+            'role' => 'empleado', // Si usas roles
+        ]);
+        
+    
         return redirect()->route('login.index')->with('success', 'Registro exitoso. Inicia sesión.');
     }
+    
 }
