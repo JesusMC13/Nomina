@@ -23,7 +23,7 @@ class TurnoController extends Controller
     // Almacenar el nuevo turno
     public function store(Request $request)
     {
-        
+
         $request->validate([
             'nombre_turno' => 'required|string|max:50|unique:turnos,nombre_turno',
             'hora_entrada' => 'required|date_format:H:i',
