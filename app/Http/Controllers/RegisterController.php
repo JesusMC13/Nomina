@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller {
-    
+
     public function create() {
         // Retorna la vista de registro
         return view('auth.register');
@@ -21,12 +22,12 @@ class RegisterController extends Controller {
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|confirmed',
         ]);
-        
+
         // Crear el nuevo usuario
         $user = User::create([
             'name' => $request->nombre . ' ' . $request->apellido_paterno . ' ' . $request->apellido_materno,
             'email' => $request->email,
-            'password' => bcrypt($request->password), // Encripta la contraseña
+            'password' => Hash :: make ($request->password),
             'role' => 'empleado', // Si usas roles
         ]);
 
