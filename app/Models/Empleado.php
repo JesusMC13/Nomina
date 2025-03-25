@@ -30,5 +30,9 @@ class Empleado extends Model
     {
         return $this->belongsToMany(DiaDescanso::class, 'empleado_dias_descanso', 'empleado_id', 'dia_descanso_id');
     }
+    public function asistencias()
+    {
+        return $this->hasMany(Asistencia::class, 'ID_empleado');
+    }
 }
 

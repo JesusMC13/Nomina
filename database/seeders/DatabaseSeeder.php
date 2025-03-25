@@ -21,10 +21,10 @@ class DatabaseSeeder extends Seeder
 
         // Crear otro usuario 
         User::firstOrCreate(
-            ['email' => 'usuario2@gmail.com'],
+            ['email' => 'munguiachucho@gmail.com'],
             [
-                'name' => 'Usuario 2',
-                'password' => Hash::make('87654321'),
+                'name' => 'jesus',
+                'password' => Hash::make('12345678'),
                 'role' => 'user',
             ]
         );

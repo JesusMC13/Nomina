@@ -10,6 +10,9 @@ use App\Http\Controllers\TurnoController;
 use App\Http\Controllers\AsignarTurnoController;
 use App\Http\Controllers\ModificarTurnoController;
 use App\Http\Controllers\AsignarDiasDescansoController;
+use App\Http\Controllers\AsistenciaController;
+use App\Http\Controllers\EmpleadoAsistenciaController;
+use App\Http\Controllers\RetardoController;
 
 
 Route::get('/', function () {
@@ -102,9 +105,17 @@ Route::prefix('adminn/asignardiasdescanso')->group(function () {
     Route::delete('/destroy/{id}', [AsignarDiasDescansoController::class, 'destroy'])->name('adminn.asignardiasdescanso.destroy');
 });
 
+Route::prefix('adminn')->name('adminn.')->group(function() {
+    Route::get('/asistencias', [AsistenciaController::class, 'index'])->name('asistencias.index');
+});
 
 
+// Ruta para ver asistencias de los empleados
+Route::get('adminn/asistencias', [EmpleadoAsistenciaController::class, 'index']);
 
+Route::prefix('adminn')->middleware('auth')->group(function () {
+    Route::get('/retardos', [RetardoController::class, 'index'])->name('adminn.retardos');
+});
 
 
 
