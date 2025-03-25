@@ -34,5 +34,17 @@ class Empleado extends Model
     {
         return $this->hasMany(Asistencia::class, 'ID_empleado');
     }
+    public function puesto()
+    {
+        return $this->belongsTo(Puesto::class, 'id_puesto'); // Relación con la tabla de puestos
+    }
+
+    public function turno()
+    {
+        return $this->belongsTo(AsignarTurno::class, 'ID_empleado'); // Relación con la tabla asigna_turnos
+    }
+    
+    
+
 }
 

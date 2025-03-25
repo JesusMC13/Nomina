@@ -14,24 +14,40 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped table-bordered" id="retardosTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Empleado</th>
-                            <th>Fecha</th>
-                            <th>Hora de Entrada</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($retardos as $retardo)
-                        <tr>
-                            <td>{{ $retardo->nombre }} {{ $retardo->apellido_paterno }} {{ $retardo->apellido_materno }}</td>
-                            <td>{{ $retardo->fecha }}</td>
-                            <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $retardo->hora_inicio)->format('g:i A') }}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+            <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellido Paterno</th>
+                                <th>Apellido Materno</th>
+                                <th>Hora de Entrada</th>
+                                <th>Minutos de Retraso</th>
+                                <th>Descuento Aplicado</th>
+                                <th>Sueldo Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($retardos as $asistencia)
+                                <tr>
+                                    <td>{{ $asistencia->nombre }}</td>
+                                    <td>{{ $asistencia->apellido_paterno }}</td>
+                                    <td>{{ $asistencia->apellido_materno }}</td>
+                                    <td>{{ $asistencia->hora_entrada }}</td>
+                                    <td>{{ $asistencia->hora_entrada > $hora_tolerancia ? $hora_entrada->diffInMinutes($hora_programada) : 0 }} minutos</td>
+                                    <td>
+                                        @if ($asistencia->descuento_aplicado > 0)
+                                            ${{ number_format($asistencia->descuento_aplicado, 2) }}
+                                        @else
+                                            No aplica
+                                        @endif
+                                    </td>
+                                    <td>${{ number_format($asistencia->sueldo_total, 2) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
+
             </div>
         </div>
     </div>

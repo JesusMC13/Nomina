@@ -13,6 +13,8 @@ use App\Http\Controllers\AsignarDiasDescansoController;
 use App\Http\Controllers\AsistenciaController;
 use App\Http\Controllers\EmpleadoAsistenciaController;
 use App\Http\Controllers\RetardoController;
+use App\Http\Controllers\AplicarDescuentoController;
+
 
 
 Route::get('/', function () {
@@ -110,12 +112,19 @@ Route::prefix('adminn')->name('adminn.')->group(function() {
 });
 
 
-// Ruta para ver asistencias de los empleados
-Route::get('adminn/asistencias', [EmpleadoAsistenciaController::class, 'index']);
 
 Route::prefix('adminn')->middleware('auth')->group(function () {
-    Route::get('/retardos', [RetardoController::class, 'index'])->name('adminn.retardos');
+    Route::get('/retardo', [RetardoController::class, 'index'])->name('adminn.retardos.index');
 });
+
+
+Route::prefix('adminn')->middleware('auth')->group(function () {
+    Route::get('/aplicardescuento', [AplicarDescuentoController::class, 'index'])->name('adminn.aplicardescuento.index');
+    Route::post('/aplicardescuento/aplicar', [AplicarDescuentoController::class, 'aplicarDescuento'])->name('adminn.aplicardescuento.aplicarDescuento');
+});
+
+
+
 
 
 

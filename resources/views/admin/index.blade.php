@@ -55,8 +55,8 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="asistenciasDropdown">
                 <a class="dropdown-item" href="{{ route('adminn.asistencias.index') }}">Consultar Asistencias</a>
-                <a class="dropdown-item" href="{{ route('adminn.retardos') }}">Ver Retardos</a>
-                    <a class="dropdown-item" href="descuentos_tardanza.html">Aplicar Descuentos por Tardanza</a>
+                <a class="dropdown-item" href="{{ route('adminn.retardos.index') }}">Ver Retardos</a>
+                <a class="dropdown-item" href="{{ route('adminn.aplicardescuento.index') }}">Aplicar Descuentos por Retardo</a>
                 </div>
             </li>
 
