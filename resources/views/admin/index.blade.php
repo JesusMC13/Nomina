@@ -21,6 +21,15 @@
             </a>
             <hr class="sidebar-divider my-0">
             <div class="sidebar-heading">Gestión de Nómina</div>
+            
+             <!-- Empleados -->
+             <li class="nav-item">
+                <a class="nav-link" href="calculo_nomina.html">
+                    <i class="fas fa-users"></i>
+                    <span>Empleados</span>
+                </a>
+            </li>
+
 
             <!-- Gestión de Turnos y Horarios -->
             <li class="nav-item dropdown">

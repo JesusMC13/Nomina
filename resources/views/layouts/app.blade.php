@@ -45,12 +45,12 @@
                 <ul class="navbar-nav ml-auto">
 
                     @if(!auth()->check())
-                        <li class="nav-item mx-2">
-                            <a class="nav-link" href="{{ route('login.index') }}">Entrar</a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link" href="{{ route('register.index') }}">Registrar</a>
-                        </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link" href="{{ route('login.index') }}" style="color: black;">Entrar</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link" href="{{ route('register.index') }}" style="color: black;">Registrar</a>
+                    </li>
                     @else
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"

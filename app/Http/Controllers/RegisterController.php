@@ -1,37 +1,53 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\Empleado;
+use App\Models\Puesto;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-class RegisterController extends Controller {
-
+class RegisterController extends Controller
+{
     public function create() {
-        // Retorna la vista de registro
-        return view('auth.register');
+        $puestos = Puesto::all(); // Obtener los puestos de la BD
+        return view('auth.register', compact('puestos'));
     }
 
-    public function store(Request $request) {
-        // Validación de los campos del formulario
+    // Validar datos
+    public function store(Request $request)
+    {
         $validatedData = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellido_paterno' => 'required|string|max:255',
-            'apellido_materno' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8|confirmed',
+            'nombre' => 'required|string|max:50',
+            'apellido_paterno' => 'required|string|max:50',
+            'apellido_materno' => 'required|string|max:50',
+            'email' => 'required|email|unique:users,email', // Asegurarse que el email es único
+            'password' => 'required|confirmed|min:8', // Validar que la contraseña tenga al menos 8 caracteres
+            'id_puesto' => 'required|exists:puesto,id_puesto',
         ]);
 
-        // Crear el nuevo usuario
+        // Crear usuario
         $user = User::create([
             'name' => $request->nombre . ' ' . $request->apellido_paterno . ' ' . $request->apellido_materno,
-            'email' => $request->email,
-            'password' => Hash :: make ($request->password),
-            'role' => 'empleado', // Si usas roles
+            'email' => $request->email, // El email viene del formulario
+            'password' => Hash::make($request->password), // Encriptar la contraseña antes de almacenarla
+            'role' => 'empleado', // Asignar el rol como empleado
         ]);
 
-        // Redirige al login con un mensaje de éxito
-        return redirect()->route('login.index')->with('success', 'Registro exitoso. Inicia sesión.');
+        // Crear empleado asociado al usuario
+        Empleado::create([
+            'user_id' => $user->id,
+            'id_puesto' => $request->id_puesto, // El puesto viene del formulario
+            'nombre' => $request->nombre,
+            'apellido_paterno' => $request->apellido_paterno,
+            'apellido_materno' => $request->apellido_materno,
+        ]);
+
+        // Iniciar sesión inmediatamente después del registro
+        auth()->login($user);
+
+        // Redirigir al dashboard del empleado
+        return redirect()->route('empleado.dashboard')->with('success', 'Registro exitoso. Bienvenido al sistema.');
     }
 }

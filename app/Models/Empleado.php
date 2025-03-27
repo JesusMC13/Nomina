@@ -14,9 +14,6 @@ class Empleado extends Model
     // Especifica la clave primaria si no es 'id'
     protected $primaryKey = 'ID_empleado';  // Ajusta al nombre real de la columna
 
-    // Si tu clave primaria no es auto incremental, agrega esto:
-    public $incrementing = false;
-
     // Si tu clave primaria es de un tipo diferente (como string o UUID)
     protected $keyType = 'string';  // Asegúrate de que coincida con el tipo de dato de la clave primaria
 
@@ -25,6 +22,7 @@ class Empleado extends Model
         'apellido_paterno',
         'apellido_materno',
         'id_puesto',
+        'user_id',
     ];
     public function diasDescanso()
     {
@@ -36,12 +34,17 @@ class Empleado extends Model
     }
     public function puesto()
     {
-        return $this->belongsTo(Puesto::class, 'id_puesto'); // Relación con la tabla de puestos
+        return $this->belongsTo(Puesto::class, 'id_puesto', 'id_puesto');
     }
+    
 
     public function turno()
     {
-        return $this->belongsTo(AsignarTurno::class, 'ID_empleado'); // Relación con la tabla asigna_turnos
+        return $this->belongsTo(Turno::class, 'turno_id', 'ID_turno'); // 'turno_id' es la clave foránea
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
     
     
