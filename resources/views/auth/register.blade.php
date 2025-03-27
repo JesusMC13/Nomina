@@ -52,23 +52,7 @@
     @error('password_confirmation')        
       <p class="border border-red-500 rounded-md bg-red-100 w-full text-red-600 p-2 my-2">* {{ $message }}</p>
     @enderror
-
-    <!-- Campo para seleccionar el puesto -->
-    <div class="form-group">
-      <label for="id_puesto" class="block text-lg">Selecciona un Puesto</label>
-      <select name="id_puesto" id="id_puesto" class="border border-gray-200 rounded-md bg-gray-200 w-full text-lg placeholder-gray-900 p-2 my-2 focus:bg-white" required>
-      <option value="">-- Selecciona un puesto --</option>
-      @foreach($puestos as $puesto) <!-- Asegúrate de que $puestos está siendo utilizado correctamente -->
-          <option value="{{ $puesto->id_puesto }}" {{ old('id_puesto') == $puesto->id_puesto ? 'selected' : '' }}>{{ $puesto->nombre_puesto }}</option>
-      @endforeach
-  </select>
-
       
-      @error('id_puesto')        
-        <p class="border border-red-500 rounded-md bg-red-100 w-full text-red-600 p-2 my-2">* {{ $message }}</p>
-      @enderror
-    </div>
-
     <button type="submit" class="rounded-md bg-indigo-500 w-full text-lg text-white font-semibold p-2 my-3 hover:bg-indigo-600">Registrar</button>
 
     <a href="{{ url('/home') }}" class="btn btn-secondary">Salir</a>

@@ -24,7 +24,6 @@ class RegisterController extends Controller
             'apellido_materno' => 'required|string|max:50',
             'email' => 'required|email|unique:users,email', // Asegurarse que el email es único
             'password' => 'required|confirmed|min:8', // Validar que la contraseña tenga al menos 8 caracteres
-            'id_puesto' => 'required|exists:puesto,id_puesto',
         ]);
 
         // Crear usuario
@@ -37,8 +36,7 @@ class RegisterController extends Controller
 
         // Crear empleado asociado al usuario
         Empleado::create([
-            'user_id' => $user->id,
-            'id_puesto' => $request->id_puesto, // El puesto viene del formulario
+            'user_id' => $user->id,// El puesto viene del formulario
             'nombre' => $request->nombre,
             'apellido_paterno' => $request->apellido_paterno,
             'apellido_materno' => $request->apellido_materno,
