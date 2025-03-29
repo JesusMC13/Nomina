@@ -20,8 +20,9 @@ class Turno extends Model
     ];
     public function empleados()
     {
-        return $this->hasMany(Empleado::class, 'id_turno');  // 'turno_id' es la columna que hace referencia al turno
+        return $this->hasMany(Empleado::class, 'ID_turno');  // 'turno_id' es la columna que hace referencia al turno
     }
+    
 
 }
 

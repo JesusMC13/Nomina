@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Turno;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log; // Import the Log facade
 
 class TurnoController extends Controller
 {
@@ -48,17 +49,20 @@ class TurnoController extends Controller
     // Actualizar el turno
     public function update(Request $request, Turno $turno)
     {
+         Log::info('Update method called'); // Add log
         $request->validate([
-            'nombre_turno' => 'required|string|max:50|unique:turnos,nombre_turno,' . $turno->ID_turno,
+            'nombre_turno' => 'required|string|max:50|unique:turnos,nombre_turno,' . $turno->ID_turno . ',ID_turno',
             'hora_entrada' => 'required|date_format:H:i',
             'hora_salida'  => 'required|date_format:H:i',
         ]);
 
-        $turno->update([
-            'nombre_turno' => $request->nombre_turno,
-            'hora_entrada' => $request->hora_entrada,
-            'hora_salida'  => $request->hora_salida,
-        ]);
+        // Log the request data
+        Log::info('Request Data:', $request->all());
+
+        $turno->nombre_turno = $request->input('nombre_turno');
+        $turno->hora_entrada = $request->input('hora_entrada');
+        $turno->hora_salida = $request->input('hora_salida');
+        $turno->save();  // Use save() method to persist changes
 
         return redirect()->route('adminn.turnos.index')->with('success', 'Turno actualizado exitosamente.');
     }
@@ -75,5 +79,4 @@ class TurnoController extends Controller
     {
         return view('adminn.turnos.show', compact('turno'));  // Pasamos el turno a la vista
     }
-
 }

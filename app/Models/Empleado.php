@@ -40,7 +40,7 @@ class Empleado extends Model
 
     public function turno()
     {
-        return $this->belongsTo(Turno::class, 'turno_id', 'ID_turno'); // 'turno_id' es la clave foránea
+        return $this->belongsTo(Turno::class, 'ID_turno', 'ID_turno'); // 'turno_id' es la clave foránea
     }
     public function user()
     {

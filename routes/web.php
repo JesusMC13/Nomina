@@ -13,6 +13,8 @@
     use App\Http\Controllers\EmpleadoAsistenciaController;
     use App\Http\Controllers\RetardoController;
     use App\Http\Controllers\AplicarDescuentoController;
+    use App\Http\Controllers\EmpleadoController;
+
 
 
 
@@ -115,7 +117,10 @@
         Route::post('/aplicardescuento/aplicar', [AplicarDescuentoController::class, 'aplicarDescuento'])->name('adminn.aplicardescuento.aplicarDescuento');
     });
 
-
+    Route::prefix('adminn')->middleware('auth')->group(function () {
+        Route::get('/empleados', [EmpleadoController::class, 'index'])->name('adminn.empleados.index');
+    });
+    
 
     
 

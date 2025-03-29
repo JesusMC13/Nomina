@@ -24,7 +24,7 @@
             
              <!-- Empleados -->
              <li class="nav-item">
-                <a class="nav-link" href="calculo_nomina.html">
+                <a class="nav-link" href="{{ route('adminn.empleados.index') }}">
                     <i class="fas fa-users"></i>
                     <span>Empleados</span>
                 </a>
