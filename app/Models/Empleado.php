@@ -26,7 +26,7 @@ class Empleado extends Model
     ];
     public function diasDescanso()
     {
-        return $this->belongsToMany(DiaDescanso::class, 'empleado_dias_descanso', 'empleado_id', 'dia_descanso_id');
+        return $this->belongsToMany(DiaDescanso::class, 'empleado_dias_descanso', 'dia_descanso_id', 'empleado_id');
     }
     public function asistencias()
     {
@@ -36,11 +36,11 @@ class Empleado extends Model
     {
         return $this->belongsTo(Puesto::class, 'id_puesto', 'id_puesto');
     }
-    
+
 
     public function turno()
     {
-        return $this->belongsTo(Turno::class, 'ID_turno', 'ID_turno'); // 'turno_id' es la clave foránea
+        return $this->belongsTo(Turno::class, 'turno_id');  // Asegúrate de que 'turno_id' sea el campo correcto
     }
     public function user()
     {

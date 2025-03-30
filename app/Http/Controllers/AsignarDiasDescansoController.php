@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Empleado;
 use App\Models\DiaDescanso;
+use App\Models\EmpleadoDiaDescanso;
+
 
 class AsignarDiasDescansoController extends Controller
 {
@@ -16,25 +18,41 @@ class AsignarDiasDescansoController extends Controller
     }
 
     public function create()
-    {
-        $empleados = Empleado::all();
-        $dias = DiaDescanso::all();
-        return view('adminn.asignardiasdescanso.create', compact('empleados', 'dias'));
-    }
+{
+    // Ordenar empleados por ID
+    $empleados = Empleado::orderBy('ID_empleado', 'asc')->get();
 
+    // Ordenar días de descanso por ID
+    $dias = DiaDescanso::orderBy('ID_dia_descanso', 'asc')->get();
+
+    return view('adminn.asignardiasdescanso.create', compact('empleados', 'dias'));
+}
+
+    
+    
+
+    // app/Http/Controllers/AsignarDiasDescansoController.php
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'empleado_id' => 'required|exists:empleados,ID_empleado',
-            'dias_descanso' => 'required|array',
-            'dias_descanso.*' => 'exists:dias_descanso,ID_dia_descanso',
+            'dia_descanso_id' => 'required|exists:dias_descanso,ID_dia_descanso',
         ]);
 
-        $empleado = Empleado::findOrFail($request->empleado_id);
-        $empleado->diasDescanso()->sync($request->dias_descanso);
+        // Crear la asignación de día de descanso
+        $asignacion = new EmpleadoDiaDescanso();
+        $asignacion->empleado_id = $request->empleado_id;
+        $asignacion->dia_descanso_id = $request->dia_descanso_id;
 
-        return redirect()->route('adminn.asignardiasdescanso.index')->with('success', 'Días de descanso asignados correctamente.');
+        try {
+            $asignacion->save();
+            return redirect()->route('adminn.asignardiasdescanso.index')->with('success', 'Día de descanso asignado exitosamente.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Ocurrió un error al asignar el día de descanso.']);
+        }
     }
+
+
 
     public function edit($id)
     {

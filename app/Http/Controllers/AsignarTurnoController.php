@@ -12,10 +12,18 @@ class AsignarTurnoController extends Controller
     // Mostrar la lista de empleados con sus turnos
     public function index()
     {
-        $empleados = Empleado::with('turno')->get();  // Obtener todos los empleados con sus turnos
-
-        return view('adminn.asignar_turnos.index', compact('empleados'));  // Pasar los empleados a la vista
+        $empleados = Empleado::with('turno')->get();
+        foreach ($empleados as $empleado) {
+            // Verificar si el empleado tiene un turno asignado
+            if ($empleado->turno) {
+                \Log::info("Empleado: {$empleado->nombre} tiene turno: {$empleado->turno->nombre_turno}");
+            } else {
+                \Log::info("Empleado: {$empleado->nombre} no tiene turno asignado.");
+            }
+        }
+        return view('adminn.asignar_turnos.index', compact('empleados'));
     }
+
 
     // Mostrar el formulario para asignar un turno a un empleado
     public function show($ID_empleado)
@@ -37,9 +45,10 @@ class AsignarTurnoController extends Controller
         ]);
 
         // Asignar el nuevo turno al empleado
-        $empleado->turno_id = $request->turno_id;
+        $empleado->turno_id = $request->turno_id;  // Asegúrate que este campo corresponda al modelo de empleados
         $empleado->save();
 
         return redirect()->route('adminn.asignar.turnos')->with('success', 'Turno asignado correctamente.');
     }
+
 }

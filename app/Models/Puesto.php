@@ -14,10 +14,13 @@ class Puesto extends Model
 
     protected $fillable = ['nombre_puesto', 'salario_base']; // Columnas que pueden ser asignadas en masa
 
-    public function empleados()
-    {
-        return $this->hasMany(Empleado::class, 'id_puesto');
-    }
+   // Puesto.php (Modelo)
+   public function empleados()
+   {
+       return $this->hasMany(Empleado::class, 'id_puesto'); // Asegúrate de usar 'id_puesto' como clave foránea
+   }
+   
+
 }
     
 

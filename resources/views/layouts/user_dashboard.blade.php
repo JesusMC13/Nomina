@@ -1,4 +1,4 @@
-a<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -13,7 +13,7 @@ a<!DOCTYPE html>
     <div id="wrapper">
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('empleado.dashboard') }}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-user"></i>
                 </div>
@@ -24,7 +24,7 @@ a<!DOCTYPE html>
 
             <!-- Consulta de Turnos y Horarios -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ asset('views/adminn/empleado/turnos.html') }}">
                     <i class="fas fa-calendar-alt"></i>
                     <span>Consulta de Turnos y Horarios</span>
                 </a>
@@ -32,31 +32,39 @@ a<!DOCTYPE html>
 
             <!-- Consulta de Días de Descanso -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ asset('views/adminn/empleado/dias_descanso.html') }}">
                     <i class="fas fa-bed"></i>
                     <span>Consulta de Días de Descanso</span>
                 </a>
             </li>
 
-            <!-- Registro Personal -->
+            <!-- Registro de Asistencia -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('empleado.asistencias.index') }}">
                     <i class="fas fa-clock"></i>
-                    <span>Registro Personal</span>
+                    <span>Registro de Asistencia</span>
                 </a>
             </li>
 
             <!-- Solicitudes de Justificación -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ asset('views/adminn/empleado/justificacion.html') }}">
                     <i class="fas fa-envelope"></i>
                     <span>Solicitudes de Justificación</span>
                 </a>
             </li>
 
+            <!-- Consulta de Descuentos -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ asset('views/adminn/empleado/descuentos.html') }}">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Consulta de Descuentos</span>
+                </a>
+            </li>
+
             <!-- Consulta de Nómina -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ asset('views/adminn/empleado/nomina.html') }}">
                     <i class="fas fa-file-invoice-dollar"></i>
                     <span>Consulta de Nómina</span>
                 </a>
@@ -64,7 +72,7 @@ a<!DOCTYPE html>
 
             <!-- Historial Personal -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ asset('views/adminn/empleado/historial.html') }}">
                     <i class="fas fa-history"></i>
                     <span>Historial Personal</span>
                 </a>
@@ -85,17 +93,14 @@ a<!DOCTYPE html>
                     </button>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown no-arrow">
-                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->name }}</span>
-
-                                <!-- Aquí se verifica el género para mostrar el avatar adecuado -->
                                 @if(auth()->user()->gender == 'mujer')
                                     <img class="img-profile rounded-circle" src="https://i.pinimg.com/474x/6d/5e/38/6d5e38d19bf4c0c9554b1e6beab75952.jpg">
                                 @else
                                     <img class="img-profile rounded-circle" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKYRbTui6o8jHIqLFc3hpN-4ItYVRSV5j-8hSTTKLzjVg1tHWTa2__5bmp25TA56gFXhQ&usqp=CAU">
                                 @endif
                             </a>
-
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
@@ -111,7 +116,7 @@ a<!DOCTYPE html>
                 </nav>
                 <div class="container-fluid">
                     <h1 class="h3 mb-4 text-gray-800">Panel de Control</h1>
-                    <!-- Aquí pueden ir las notificaciones o alertas específicas del empleado -->
+                    <p>Bienvenido a tu panel de empleado. Aquí puedes consultar tu asistencia, días de descanso, nómina y más.</p>
                 </div>
             </div>
         </div>

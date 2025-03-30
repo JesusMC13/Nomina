@@ -18,4 +18,5 @@ class DiaDescanso extends Model
     {
         return $this->belongsToMany(Empleado::class, 'empleado_dias_descanso', 'dia_descanso_id', 'empleado_id');
     }
+
 }

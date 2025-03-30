@@ -4,7 +4,7 @@
 <div class="container">
     <h2>Asignación de Días de Descanso</h2>
     <div class="d-flex justify-content-between mb-3">
-    <a href="{{ route('adminn.asignardiasdescanso.create') }}" class="btn btn-primary mb-3">Asignar Nuevo</a>
+    <a href="{{ route('adminn.asignardiasdescanso.create') }}" class="btn btn-primary mb-3">Asignar Dia de descanso al empleado</a>
     <a href="{{ route('admin.index') }}" class="btn btn-primary">Regresar al Dashboard</a>
     </div>
     <table class="table table-bordered">

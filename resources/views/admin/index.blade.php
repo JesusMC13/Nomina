@@ -29,6 +29,18 @@
                     <span>Empleados</span>
                 </a>
             </li>
+            <!-- Gestión de Puestos -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="puestosDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Gestión de Puestos</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="puestosDropdown">
+                    <a class="dropdown-item" href="{{ route('adminn.puestos.index') }}">Ver Puestos</a>
+                    <a class="dropdown-item" href="{{ route('adminn.asignar.puestos') }}">Asignar Puestos a Empleados</a>
+                    <a class="dropdown-item" href="{{ route('adminn.empleados.puestos') }}">Ver Puestos de los Empleados</a>
+                </div>
+            </li>
 
 
             <!-- Gestión de Turnos y Horarios -->

@@ -13,6 +13,7 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Lista de Empleados</h6>
         </div>
+        <a href="{{ route('admin.index') }}" class="btn btn-primary">Regresar al Dashboard</a>
         <div class="card-body">
             <table class="table table-bordered">
                 <thead>
@@ -23,15 +24,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($empleados as $empleado)
-                    <tr>
-                        <td>{{ $empleado->nombre }} {{ $empleado->apellido_paterno }}</td>
-                        <td>{{ $empleado->turno->nombre_turno ?? 'No asignado' }}</td>  <!-- Mostrar el nombre del turno -->
-                        <td>
-                            <a href="{{ route('adminn.asignar.turno.form', $empleado->ID_empleado) }}" class="btn btn-primary">Editar Turno</a>
-                        </td>
-                    </tr>
-                    @endforeach
+                @foreach($empleados as $empleado)
+                <tr>
+                    <td>{{ $empleado->nombre }} {{ $empleado->apellido_paterno }}</td>
+                    <td>
+                        @if($empleado->turno)
+                            {{ $empleado->turno->nombre_turno }}
+                        @else
+                            <span class="text-muted">No asignado</span>
+                        @endif
+                    </td>
+                    <td>
+                        <a href="{{ route('adminn.asignar.turno.form', $empleado->ID_empleado) }}" class="btn btn-primary">Asignar Turno</a>
+                    </td>
+                </tr>
+                @endforeach
+
                 </tbody>
             </table>
         </div>
