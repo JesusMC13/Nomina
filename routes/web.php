@@ -15,6 +15,7 @@
     use App\Http\Controllers\AplicarDescuentoController;
     use App\Http\Controllers\EmpleadoController;
     use App\Http\Controllers\PuestoController;
+    use App\Http\Controllers\AdminAsistenciaController;
 
 
     Route::get('/', function () {
@@ -121,10 +122,14 @@ Route::post('/empleados/{ID_empleado}/asignar-turno', [AsignarTurnoController::c
         Route::delete('/destroy/{id}', [AsignarDiasDescansoController::class, 'destroy'])->name('adminn.asignardiasdescanso.destroy');
     });
 
-    Route::prefix('adminn')->name('adminn.')->group(function() {
-        Route::get('/asistencias', [AsistenciaController::class, 'index'])->name('asistencias.index');
-    });
+  
 
+
+
+    Route::prefix('adminn')->middleware(['auth'])->group(function () {
+        Route::get('/asistencias', [AdminAsistenciaController::class, 'index'])->name('adminn.asistencias.index');
+    });
+    
 
 
     Route::prefix('adminn')->middleware('auth')->group(function () {
@@ -148,12 +153,14 @@ Route::post('/empleados/{ID_empleado}/asignar-turno', [AsignarTurnoController::c
 
 //dashboard empleado use App\Http\Controllers\Empleado\AsistenciaController;
 
+
 Route::prefix('empleado')->middleware(['auth'])->group(function () {
     Route::get('/asistencias', [AsistenciaController::class, 'index'])->name('empleado.asistencias.index');
     Route::get('/asistencias/create', [AsistenciaController::class, 'create'])->name('empleado.asistencias.create');
     Route::post('/asistencias', [AsistenciaController::class, 'store'])->name('empleado.asistencias.store');
     Route::delete('/asistencias/{id}', [AsistenciaController::class, 'destroy'])->name('empleado.asistencias.destroy');
 });
+
 
 
 

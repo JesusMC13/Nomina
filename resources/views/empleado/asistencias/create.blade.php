@@ -15,22 +15,21 @@
     @endif
 
     <form action="{{ route('empleado.asistencias.store') }}" method="POST">
-    @csrf
-    <div class="form-group">
-        <label for="fecha">Fecha de Asistencia</label>
-        <input type="date" class="form-control" name="fecha" required>
-    </div>
-    <div class="form-group">
-        <label for="hora_inicio">Hora de Entrada</label>
-        <input type="text" class="form-control" name="hora_inicio" id="hora_inicio" placeholder="hh:mm AM/PM" required>
-    </div>
-    <div class="form-group">
-        <label for="hora_fin">Hora de Salida</label>
-        <input type="text" class="form-control" name="hora_fin" id="hora_fin" placeholder="hh:mm AM/PM" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Registrar Asistencia</button>
-</form>
-
+        @csrf
+        <div class="form-group">
+            <label for="fecha">Fecha de Asistencia</label>
+            <input type="date" class="form-control" name="fecha" required>
+        </div>
+        <div class="form-group">
+            <label for="hora_inicio">Hora de Entrada</label>
+            <input type="text" class="form-control" name="hora_inicio" id="hora_inicio" placeholder="hh:mm AM/PM" required>
+        </div>
+        <div class="form-group">
+            <label for="hora_fin">Hora de Salida</label>
+            <input type="text" class="form-control" name="hora_fin" id="hora_fin" placeholder="hh:mm AM/PM" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar Asistencia</button>
+    </form>
 </div>
 
 <!-- Incluir Flatpickr para el TimePicker -->
@@ -38,19 +37,13 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
-  flatpickr("#hora_inicio", {
-    enableTime: true,
-    noCalendar: true,
-    dateFormat: "h:i K", // Formato de 12 horas con AM/PM
-    time_24hr: false,    // Asegúrate de que sea en formato 12 horas
-  });
-
-  flatpickr("#hora_fin", {
-    enableTime: true,
-    noCalendar: true,
-    dateFormat: "h:i K", // Formato de 12 horas con AM/PM
-    time_24hr: false,    // Asegúrate de que sea en formato 12 horas
-  });
+    document.addEventListener('DOMContentLoaded', function () {
+        flatpickr("#hora_inicio, #hora_fin", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "h:i K", // Formato de 12 horas con AM/PM
+            time_24hr: false,    // Asegúrate de que sea en formato 12 horas
+        });
+    });
 </script>
-
 @endsection
