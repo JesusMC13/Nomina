@@ -24,8 +24,16 @@
                 <tbody>
                     @foreach ($empleados as $empleado)
                         <tr>
-                            <td>{{ $empleado->nombre }} {{ $empleado->apellido_paterno }}</td>
-                            <td>{{ $empleado->turno ?? 'No asignado' }}</td>
+                        <td>
+                            @if($empleado->turno->isNotEmpty())  {{-- 🔹 Cambié 'turnos' a 'turno' --}}
+                                @foreach($empleado->turno as $turno)
+                                    {{ $turno->nombre_turno }} ({{ $turno->hora_entrada }} - {{ $turno->hora_salida }})<br>
+                                @endforeach
+                            @else
+                                No asignado
+                            @endif
+                        </td>
+
                             <td>
                                 <a href="{{ route('adminn.modificar.turno.form', $empleado->ID_empleado) }}" class="btn btn-sm btn-warning">
                                     Modificar Turno

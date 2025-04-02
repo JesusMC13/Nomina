@@ -9,21 +9,27 @@ class Empleado extends Model
 {
     use HasFactory;
 
+    use HasFactory;
+
     protected $table = 'empleados';
-
-    // Especifica la clave primaria si no es 'id'
-    protected $primaryKey = 'ID_empleado';  // Ajusta al nombre real de la columna
-
-    // Si tu clave primaria es de un tipo diferente (como string o UUID)
-    protected $keyType = 'string';  // Asegúrate de que coincida con el tipo de dato de la clave primaria
+    protected $primaryKey = 'ID_empleado';
+    public $timestamps = true;
 
     protected $fillable = [
         'nombre',
         'apellido_paterno',
         'apellido_materno',
         'id_puesto',
+        'turno_id',
         'user_id',
+        'puesto_id',
     ];
+
+    public function turno()
+    {
+        return $this->belongsTo(Turno::class, 'turno_id');
+    }
+
     public function diasDescanso()
     {
         return $this->belongsToMany(DiaDescanso::class, 'empleado_dias_descanso', 'dia_descanso_id', 'empleado_id');
@@ -35,12 +41,6 @@ class Empleado extends Model
     public function puesto()
     {
         return $this->belongsTo(Puesto::class, 'id_puesto', 'id_puesto');
-    }
-
-
-    public function turno()
-    {
-        return $this->belongsTo(Turno::class, 'turno_id');  // Asegúrate de que 'turno_id' sea el campo correcto
     }
     public function user()
     {

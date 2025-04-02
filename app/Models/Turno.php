@@ -20,7 +20,7 @@ class Turno extends Model
     ];
     public function empleados()
     {
-        return $this->hasMany(Empleado::class, 'ID_turno');  // 'turno_id' es la columna que hace referencia al turno
+        return $this->belongsToMany(Empleado::class, 'asigna_turnos', 'ID_turno', 'ID_empleado');
     }
     
 

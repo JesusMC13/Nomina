@@ -2,33 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Empleado;
+use App\Models\Turno;
 use Illuminate\Http\Request;
 
 class ModificarTurnoController extends Controller
 {
-    // Muestra la lista de empleados con sus turnos
     public function index()
     {
-        $empleados = Empleado::all();
+        $empleados = Empleado::with('turno')->get();  // 🔹 Cambié 'turnos' a 'turno'
         return view('adminn.modificar_turnos.index', compact('empleados'));
     }
 
-    // Muestra el formulario para modificar el turno
     public function showModificarTurnoForm($ID_empleado)
     {
-        $empleado = Empleado::findOrFail($ID_empleado);
-        return view('adminn.modificar_turnos.form', compact('empleado'));
+        $empleado = Empleado::with('turno')->findOrFail($ID_empleado);  // 🔹 Cambié 'turnos' a 'turno'
+        $turnos = Turno::all();
+        return view('adminn.modificar_turnos.form', compact('empleado', 'turnos'));
     }
 
-    // Modifica el turno del empleado
     public function modificarTurno(Request $request, $ID_empleado)
     {
         $empleado = Empleado::findOrFail($ID_empleado);
-        $empleado->turno = $request->turno;
-        $empleado->save();
-
+        $empleado->turno()->sync([$request->turno_id]);  // 🔹 Cambié 'turnos' a 'turno'
         return redirect()->route('adminn.modificar.turnos')->with('success', 'Turno actualizado correctamente!');
     }
 }
