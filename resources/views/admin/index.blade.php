@@ -21,7 +21,7 @@
             </a>
             <hr class="sidebar-divider my-0">
             <div class="sidebar-heading">Gestión de Nómina</div>
-            
+
              <!-- Empleados -->
              <li class="nav-item">
                 <a class="nav-link" href="{{ route('adminn.empleados.index') }}">
@@ -52,7 +52,6 @@
                 <div class="dropdown-menu" aria-labelledby="turnosDropdown">
                     <a class="dropdown-item" href="{{ route('adminn.turnos.index') }}">Ver Turnos</a>
                     <a class="dropdown-item" href="{{ route('adminn.asignar.turnos') }}">Asignar Turnos a Empleados</a>
-                    <a class="dropdown-item" href="{{ route('adminn.modificar.turnos') }}">Modificar Turnos Semanalmente</a>
                 </div>
             </li>
 
@@ -76,8 +75,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="asistenciasDropdown">
                 <a class="dropdown-item" href="{{ route('adminn.asistencias.index') }}">Consultar Asistencias</a>
-                <a class="dropdown-item" href="{{ route('adminn.retardos.index') }}">Ver Retardos</a>
-                <a class="dropdown-item" href="{{ route('adminn.aplicardescuento.index') }}">Aplicar Descuentos por Retardo</a>
+                <a class="dropdown-item" href="{{ route('adminn.retardos.index') }}">Ver Retardos y aplicar descuentos</a>
                 </div>
             </li>
 
@@ -129,7 +127,7 @@
                             </form>
 
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}" 
+                                <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout

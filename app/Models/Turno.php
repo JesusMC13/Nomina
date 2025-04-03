@@ -17,12 +17,14 @@ class Turno extends Model
         'nombre_turno',
         'hora_entrada',
         'hora_salida',
+        'tolerancia_minutos',
+        'dias_laborales'
     ];
     public function empleados()
     {
-        return $this->belongsToMany(Empleado::class, 'asigna_turnos', 'ID_turno', 'ID_empleado');
+        return $this->hasMany(Empleado::class, 'turno_id', 'ID_turno');
     }
-    
+
 
 }
 
