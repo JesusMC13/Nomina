@@ -51,6 +51,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="turnosDropdown">
                     <a class="dropdown-item" href="{{ route('adminn.turnos.index') }}">Ver Turnos</a>
+                    <a class="dropdown-item" href="{{ route('adminn.horarios.index') }}">Ver Horarios de acuerdo a turnos</a>
                     <a class="dropdown-item" href="{{ route('adminn.asignar.turnos') }}">Asignar Turnos a Empleados</a>
                 </div>
             </li>
@@ -75,7 +76,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="asistenciasDropdown">
                 <a class="dropdown-item" href="{{ route('adminn.asistencias.index') }}">Consultar Asistencias</a>
-                <a class="dropdown-item" href="{{ route('adminn.retardos.index') }}">Ver Retardos y aplicar descuentos</a>
+                <a class="dropdown-item" href="{{ route('adminn.retardos.index') }}">Ver Retardos de los empleados</a>
                 </div>
             </li>
 

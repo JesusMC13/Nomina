@@ -76,6 +76,40 @@ class Empleado extends Model
     {
         return trim("{$this->nombre} {$this->apellido_paterno} {$this->apellido_materno}");
     }
+    public function calcularProximoDescanso()
+    {
+        if (!$this->diasDescanso || $this->diasDescanso->isEmpty()) {
+            return null;
+        }
+
+        $hoy = now();
+        $diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        $diaActual = $hoy->dayOfWeek; // 0 (domingo) a 6 (sábado)
+
+        // Obtener los días de descanso ordenados
+        $diasDescanso = $this->diasDescanso->pluck('nombre_dia')->map(function($dia) use ($diasSemana) {
+            return array_search($dia, $diasSemana);
+        })->sort()->values();
+
+        foreach ($diasDescanso as $diaNum) {
+            if ($diaNum > $diaActual) {
+                $fechaProximo = $hoy->next($diaNum);
+                return [
+                    'dia' => $diasSemana[$diaNum],
+                    'fecha' => $fechaProximo
+                ];
+            }
+        }
+
+        // Si no hay más días esta semana, tomar el primero de la siguiente semana
+        $primerDiaDescanso = $diasDescanso->first();
+        $fechaProximo = $hoy->next($primerDiaDescanso);
+
+        return [
+            'dia' => $diasSemana[$primerDiaDescanso],
+            'fecha' => $fechaProximo
+        ];
+    }
 
 // Y añade el accessor a los appends
     protected $appends = ['nombre_completo'];

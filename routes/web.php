@@ -16,6 +16,10 @@
     use App\Http\Controllers\EmpleadoController;
     use App\Http\Controllers\PuestoController;
     use App\Http\Controllers\AdminAsistenciaController;
+    use App\Http\Controllers\HorarioTurnoController;
+    use App\Http\Controllers\HorarioEmpleadoController;
+    use App\Http\Controllers\DiasDescansoEmpleadoController;
+    use App\Http\Controllers\JustificacionController;
 
 
     Route::get('/', function () {
@@ -140,10 +144,11 @@ Route::post('/empleados/{ID_empleado}/asignar-turno', [AsignarTurnoController::c
         Route::get('/empleados', [EmpleadoController::class, 'index'])->name('adminn.empleados.index');
     });
 
-
-
-
-
+    Route::prefix('adminn')->group(function() {
+        Route::get('/horarios', [HorarioTurnoController::class, 'index'])->name('adminn.horarios.index');
+        Route::get('/horarios/buscar', [HorarioTurnoController::class, 'buscar'])->name('adminn.horarios.buscar');
+        Route::post('/horarios/exportar', [HorarioTurnoController::class, 'exportar'])->name('adminn.horarios.exportar');
+    });
 
 //dashboard empleado use App\Http\Controllers\Empleado\AsistenciaController;
 
@@ -155,10 +160,25 @@ Route::prefix('empleado')->middleware(['auth'])->group(function () {
     Route::delete('/asistencias/{id}', [AsistenciaController::class, 'destroy'])->name('empleado.asistencias.destroy');
 });
 
+    Route::prefix('empleado')->middleware(['auth'])->group(function () {
+        Route::get('/horarios', [HorarioEmpleadoController::class, 'index'])->name('empleado.horarios.index');
+        Route::get('/horarios/create', [HorarioEmpleadoController::class, 'create'])->name('empleado.horarios.create');
+        Route::post('/horarios', [HorarioEmpleadoController::class, 'store'])->name('empleado.horarios.store');
+        Route::delete('/horarios/{id}', [HorarioEmpleadoController::class, 'destroy'])->name('empleado.horarios.destroy');
+    });
+
+    Route::prefix('empleado')->middleware(['auth'])->group(function () {
+        // ... otras rutas existentes
+
+        // Ruta única para días de descanso (solo visualización)
+        Route::get('/dias-descanso', [DiasDescansoEmpleadoController::class, 'index'])->name('empleado.dias-descanso.index');
+    });
 
 
-
-
+    Route::prefix('empleado')->middleware(['auth'])->group(function () {
+        Route::match(['get', 'post'], 'justificaciones', [JustificacionController::class, 'index'])
+            ->name('empleado.justificaciones.index');
+    });
 
 
 

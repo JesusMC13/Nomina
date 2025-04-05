@@ -24,7 +24,7 @@
 
             <!-- Consulta de Turnos y Horarios -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ asset('views/adminn/empleado/turnos.html') }}">
+                <a class="nav-link" href="{{ route('empleado.horarios.index') }}">
                     <i class="fas fa-calendar-alt"></i>
                     <span>Consulta de Turnos y Horarios</span>
                 </a>
@@ -32,7 +32,7 @@
 
             <!-- Consulta de Días de Descanso -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ asset('views/adminn/empleado/dias_descanso.html') }}">
+                <a class="nav-link" href="{{ route('empleado.dias-descanso.index') }}">
                     <i class="fas fa-bed"></i>
                     <span>Consulta de Días de Descanso</span>
                 </a>
@@ -48,9 +48,9 @@
 
             <!-- Solicitudes de Justificación -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ asset('views/adminn/empleado/justificacion.html') }}">
+                <a class="nav-link" href="{{ route('empleado.justificaciones.index') }}">
                     <i class="fas fa-envelope"></i>
-                    <span>Solicitudes de Justificación</span>
+                    <span>Solicitar  Justificación</span>
                 </a>
             </li>
 
