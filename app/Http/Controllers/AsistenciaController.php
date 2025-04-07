@@ -12,13 +12,16 @@ class AsistenciaController extends Controller
 {
     public function index()
     {
-        // Obtener las asistencias del empleado autenticado
-        $empleado = Auth::user();
-        $asistencias = Asistencia::where('ID_empleado', $empleado->id)
-            ->orderBy('fecha', 'desc')
-            ->get();
+        $empleado = Auth::user()->empleado;
 
-        // Retornar la vista con las asistencias
+        if (!$empleado) {
+            return view('empleado.asistencias.index')->with('asistencias', []);
+        }
+
+        $asistencias = Asistencia::where('ID_empleado', $empleado->ID_empleado)
+            ->orderBy('fecha', 'desc')
+            ->paginate(10); // Paginación para mejor rendimiento
+
         return view('empleado.asistencias.index', compact('asistencias'));
     }
 
@@ -29,41 +32,41 @@ class AsistenciaController extends Controller
 
     public function store(Request $request)
     {
-        // Validación de los datos
         $request->validate([
             'fecha' => 'required|date',
             'hora_inicio' => ['required', 'regex:/^(1[0-2]|0?[1-9]):[0-5][0-9]\s?(AM|PM)$/i'],
             'hora_fin' => ['required', 'regex:/^(1[0-2]|0?[1-9]):[0-5][0-9]\s?(AM|PM)$/i', 'after:hora_inicio'],
         ]);
 
-        // Convertir las horas de 12 horas a formato de 24 horas
-        $hora_inicio = Carbon::createFromFormat('h:i A', $request->hora_inicio)->format('H:i:s');
-        $hora_fin = Carbon::createFromFormat('h:i A', $request->hora_fin)->format('H:i:s');
+        // Obtener el empleado relacionado al usuario
+        $empleado = Auth::user()->empleado;
 
-        // Crear la asistencia en la base de datos
+        if (!$empleado) {
+            return back()->with('error', 'No tienes un empleado asociado.');
+        }
+
         Asistencia::create([
-            'ID_empleado' => Auth::user()->id,
+            'ID_empleado' => $empleado->ID_empleado, // Usar el ID del empleado, no del usuario
             'fecha' => $request->fecha,
-            'hora_inicio' => $hora_inicio,
-            'hora_fin' => $hora_fin,
+            'hora_inicio' => Carbon::createFromFormat('h:i A', $request->hora_inicio)->format('H:i:s'),
+            'hora_fin' => Carbon::createFromFormat('h:i A', $request->hora_fin)->format('H:i:s'),
         ]);
 
         return redirect()->route('empleado.asistencias.index')
             ->with('success', 'Asistencia registrada correctamente.');
     }
-
     public function destroy($id)
     {
+        $empleado = Auth::user()->empleado;
         $asistencia = Asistencia::findOrFail($id);
 
-        // Verificar si el empleado puede eliminar la asistencia
-        if ($asistencia->ID_empleado == Auth::user()->id) {
-            $asistencia->delete();
+        if (!$empleado || $asistencia->ID_empleado != $empleado->ID_empleado) {
             return redirect()->route('empleado.asistencias.index')
-                ->with('success', 'Asistencia eliminada.');
+                ->with('error', 'No tienes permiso para eliminar esta asistencia.');
         }
 
+        $asistencia->delete();
         return redirect()->route('empleado.asistencias.index')
-            ->with('error', 'No puedes eliminar esta asistencia.');
+            ->with('success', 'Asistencia eliminada correctamente.');
     }
 }

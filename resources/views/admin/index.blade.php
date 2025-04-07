@@ -82,7 +82,7 @@
 
             <!-- Gestión de Justificaciones -->
             <li class="nav-item">
-                <a class="nav-link" href="justificaciones.html">
+                <a class="nav-link" href="{{ route('adminn.justificaciones.index') }}">
                     <i class="fas fa-file-alt"></i>
                     <span>Gestión de Justificaciones</span>
                 </a>
@@ -90,7 +90,7 @@
 
             <!-- Gestión de Descuentos -->
             <li class="nav-item">
-                <a class="nav-link" href="descuentos.html">
+                <a class="nav-link" href="{{ route('adminn.aplicardescuento.index') }}">
                     <i class="fas fa-percentage"></i>
                     <span>Gestión de Descuentos</span>
                 </a>

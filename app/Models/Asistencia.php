@@ -107,4 +107,8 @@ class Asistencia extends Model
     {
         return $this->belongsTo(Empleado::class, 'ID_empleado');
     }
+    public function justificacion()
+    {
+        return $this->hasOne(Justificacion::class);
+    }
 }

@@ -20,6 +20,7 @@
     use App\Http\Controllers\HorarioEmpleadoController;
     use App\Http\Controllers\DiasDescansoEmpleadoController;
     use App\Http\Controllers\JustificacionController;
+    use App\Http\Controllers\AdminJustificacionController;
 
 
     Route::get('/', function () {
@@ -135,10 +136,27 @@ Route::post('/empleados/{ID_empleado}/asignar-turno', [AsignarTurnoController::c
         Route::post('/retardos/actualizar', [RetardoController::class, 'actualizarTodo'])->name('adminn.retardos.actualizar');
     });
 
-    Route::prefix('adminn')->middleware('auth')->group(function () {
-        Route::get('/aplicardescuento', [AplicarDescuentoController::class, 'index'])->name('adminn.aplicardescuento.index');
-        Route::post('/aplicardescuento/aplicar', [AplicarDescuentoController::class, 'aplicarDescuento'])->name('adminn.aplicardescuento.aplicarDescuento');
+
+    Route::prefix('adminn')->middleware(['auth', 'auth.admin'])->group(function () {
+        // Módulo de Descuentos (usando la estructura existente)
+        Route::get('/aplicardescuento', [AplicarDescuentoController::class, 'index'])
+            ->name('adminn.aplicardescuento.index');
+
+        Route::post('/aplicardescuento/aplicar', [AplicarDescuentoController::class, 'aplicarDescuento'])
+            ->name('adminn.aplicardescuento.aplicar');
+
+        // Ruta para resultados
+        Route::get('/aplicardescuento/resultado', [AplicarDescuentoController::class, 'resultado'])
+            ->name('adminn.aplicardescuento.resultado');
+
+        Route::get('/empleado/{id}/retardos', [AplicarDescuentoController::class, 'getRetardosEmpleado'])
+            ->name('adminn.empleado.retardos');
+        Route::prefix('adminn')->group(function() {
+            Route::get('/aplicardescuento', [AplicarDescuentoController::class, 'index'])->name('adminn.aplicardescuento.index');
+            Route::get('/aplicardescuento/detalle/{id}', [AplicarDescuentoController::class, 'detalle'])->name('adminn.aplicardescuento.detalle');
+        });
     });
+
 
     Route::prefix('adminn')->middleware('auth')->group(function () {
         Route::get('/empleados', [EmpleadoController::class, 'index'])->name('adminn.empleados.index');
@@ -149,6 +167,27 @@ Route::post('/empleados/{ID_empleado}/asignar-turno', [AsignarTurnoController::c
         Route::get('/horarios/buscar', [HorarioTurnoController::class, 'buscar'])->name('adminn.horarios.buscar');
         Route::post('/horarios/exportar', [HorarioTurnoController::class, 'exportar'])->name('adminn.horarios.exportar');
     });
+
+
+
+
+    Route::prefix('adminn')->group(function() {
+        Route::get('/justificaciones', [AdminJustificacionController::class, 'index'])
+            ->name('adminn.justificaciones.index');
+
+        Route::post('/justificaciones/{justificacion}/estado', [AdminJustificacionController::class, 'cambiarEstado'])
+            ->name('adminn.justificaciones.estado');
+
+        Route::get('/justificaciones/{justificacion}', [AdminJustificacionController::class, 'show'])
+            ->name('adminn.justificaciones.show');
+    });
+
+
+
+
+
+
+
 
 //dashboard empleado use App\Http\Controllers\Empleado\AsistenciaController;
 
@@ -175,10 +214,16 @@ Route::prefix('empleado')->middleware(['auth'])->group(function () {
     });
 
 
-    Route::prefix('empleado')->middleware(['auth'])->group(function () {
-        Route::match(['get', 'post'], 'justificaciones', [JustificacionController::class, 'index'])
+    Route::prefix('empleado')->group(function() {
+        // Justificaciones
+        Route::get('/justificaciones', [JustificacionController::class, 'index'])
             ->name('empleado.justificaciones.index');
+        Route::post('/justificaciones', [JustificacionController::class, 'index'])
+            ->name('empleado.justificaciones.store');
+        Route::get('/justificaciones/{justificacion}', [JustificacionController::class, 'show'])
+            ->name('empleado.justificaciones.show');
     });
+
 
 
 

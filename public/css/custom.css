@@ -1,0 +1,31 @@
+/* Estilos para los badges de estado */
+.badge-estado {
+    font-size: 0.85rem;
+    padding: 0.35em 0.65em;
+    font-weight: 500;
+}
+
+/* Ajustes para el modal de justificaciones */
+#modalEstado .modal-dialog {
+    max-width: 500px;
+}
+
+#modalEstado .modal-body {
+    padding: 1.5rem;
+}
+
+/* Mejoras para la tabla */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Ajustes para los botones de acción */
+.btn-action {
+    min-width: 30px;
+    padding: 0.25rem 0.5rem;
+    margin: 0 2px;
+}

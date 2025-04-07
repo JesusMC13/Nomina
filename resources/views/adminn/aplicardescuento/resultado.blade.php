@@ -1,26 +1,37 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h2 class="mb-4">Resultado del Descuento Aplicado</h2>
-
-    @if(session('empleado') && session('descuento'))
-        @php
-            $empleado = session('empleado');
-            $descuento = session('descuento');
-        @endphp
-
-        <div class="card shadow-sm">
+    <div class="container-fluid">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0">Resumen de Descuentos por Retardos</h3>
+            </div>
             <div class="card-body">
-                <h4>Empleado: {{ $empleado->nombre }}</h4>
-                <p><strong>Puesto:</strong> {{ $empleado->puesto ? $empleado->puesto->nombre_puesto : 'Sin puesto asignado' }}</p>
-                <p><strong>Descuento Aplicado:</strong> ${{ number_format($descuento, 2) }}</p>
-                <p><strong>Sueldo Total Antes de Descuento:</strong> ${{ number_format($empleado->sueldo_total, 2) }}</p>
-                <p><strong>Sueldo Después de Descuento:</strong> ${{ number_format($empleado->sueldo_total - $descuento, 2) }}</p>
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Periodo:</h5>
+                        <p><strong>Fecha Inicio:</strong> {{ $fechaInicio }}</p>
+                        <p><strong>Fecha Fin:</strong> {{ $fechaFin }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Resumen General:</h5>
+                        <p><strong>Total Empleados:</strong> {{ $resumen->total_empleados }}</p>
+                        <p><strong>Total Retardos:</strong> {{ $resumen->total_retardos }}</p>
+                        <p><strong>Total Minutos Retraso:</strong> {{ $resumen->total_minutos_retraso }}</p>
+                        <p><strong>Total Descuentos:</strong> ${{ number_format($resumen->total_descuentos, 2) }}</p>
+                    </div>
+                </div>
+
+                <a href="{{ route('adminn.aplicardescuento.index') }}" class="btn btn-primary mt-3">
+                    <i class="fas fa-arrow-left"></i> Volver al listado
+                </a>
             </div>
         </div>
-    @else
-        <div class="alert alert-danger">No se pudo aplicar el descuento. Por favor, intenta nuevamente.</div>
-    @endif
-</div>
+    </div>
 @endsection
