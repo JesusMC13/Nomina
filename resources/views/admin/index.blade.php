@@ -96,12 +96,16 @@
                 </a>
             </li>
 
-            <!-- Cálculo de Nómina -->
-            <li class="nav-item">
-                <a class="nav-link" href="calculo_nomina.html">
+            <!-- Reportes -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="reportesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-file-invoice-dollar"></i>
-                    <span>Cálculo de Nómina</span>
+                    <span>Reportes</span>
                 </a>
+                <div class="dropdown-menu" aria-labelledby="reportesDropdown">
+                    <a class="dropdown-item" href="{{ route('adminn.reportes.index') }}">Generar Reporte</a>
+                    <a class="dropdown-item" href="http://127.0.0.1:8000/adminn/reportes/ver">Ver Reportes</a>
+                </div>
             </li>
 
             <hr class="sidebar-divider d-none d-md-block">
@@ -120,7 +124,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Uriel</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Uriel Estrada Mateo</span>
                                 <img class="img-profile rounded-circle" src="https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_400,h_400/https:/appsdejoseluis.com/wp-content/uploads/2020/04/face_co.png">
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

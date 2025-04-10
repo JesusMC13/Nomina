@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,19 +9,31 @@ class Puesto extends Model
 {
     use HasFactory;
 
-    protected $table = 'puesto'; // Nombre de la tabla en la base de datos
+    protected $table = 'puesto';
+    protected $primaryKey = 'id_puesto';
+    protected $fillable = ['nombre_puesto', 'salario_base'];
 
-    protected $primaryKey = 'id_puesto'; // Definir la clave primaria
+    public function empleados()
+    {
+        return $this->hasMany(Empleado::class, 'id_puesto');
+    }
 
-    protected $fillable = ['nombre_puesto', 'salario_base']; // Columnas que pueden ser asignadas en masa
+    protected static function booted()
+    {
+        static::updated(function ($puesto) {
+            if ($puesto->isDirty('salario_base')) {
+                $puesto->empleados->each(function ($empleado) {
+                    $empleado->actualizarSueldosDesdePuesto();
+                });
+            }
+        });
+    }
+    public function actualizarEmpleados()
+    {
+        $this->empleados->each->actualizarSueldosDesdePuesto();
+    }
 
-   // Puesto.php (Modelo)
-   public function empleados()
-   {
-       return $this->hasMany(Empleado::class, 'id_puesto'); // Asegúrate de usar 'id_puesto' como clave foránea
-   }
-   
 
 }
-    
+
 

@@ -13,18 +13,23 @@ class AddUserIdToEmpleadosTable extends Migration
      */
     public function up()
     {
-        Schema::table('empleados', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->nullable();  // Añadir la columna user_id
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');  // Relaciona user_id con id de la tabla users
-        });
+        if (!Schema::hasColumn('empleados', 'user_id')) {
+            Schema::table('empleados', function (Blueprint $table) {
+                $table->unsignedBigInteger('user_id')->nullable();
+                $table->foreign('user_id')
+                    ->references('id')
+                    ->on('users')
+                    ->onDelete('set null');
+            });
+        }
     }
-    
+
     public function down()
     {
         Schema::table('empleados', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);  // Eliminar la clave foránea
-            $table->dropColumn('user_id');  // Eliminar la columna user_id
+            $table->dropForeign(['user_id']);
+            $table->dropColumn('user_id');
         });
     }
-    
+
 }

@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Empleado extends Model
 {
-    use HasFactory;
-
     use HasFactory;
 
     protected $table = 'empleados';
@@ -24,31 +23,46 @@ class Empleado extends Model
         'user_id',
         'puesto_id',
         'hora_entrada',
-        'sueldo_diario' // Nueva columna
+        'sueldo_diario',
+        'sueldo_total'
     ];
-    public function getHoraEntradaEsperadaAttribute()
+
+    protected $appends = ['nombre_completo'];
+
+    protected static function booted()
     {
-        // 1. Prioridad a hora personalizada del empleado
-        if ($this->hora_entrada) {
-            return Carbon::parse($this->hora_entrada);
-        }
+        static::creating(function ($empleado) {
+            $empleado->calcularSueldos(); // Se ejecuta al crear
+        });
 
-        // 2. Usar horario del turno asignado
-        if ($this->turno) {
-            return Carbon::parse($this->turno->hora_entrada);
-        }
-
-        // 3. Valor por defecto
-        return Carbon::parse('09:00:00');
+        static::updating(function ($empleado) {
+            if ($empleado->isDirty('id_puesto')) {
+                $empleado->calcularSueldos(); // Se ejecuta al cambiar puesto
+            }
+        });
     }
+
+    public function calcularSueldos()
+    {
+        if ($this->puesto) {
+            $this->sueldo_total = $this->puesto->salario_base * 4; // Mensual (4 semanas)
+            $this->sueldo_diario = $this->puesto->salario_base / 6; // 6 días laborales por semana
+        }
+    }
+
+
+    public function actualizarSueldosDesdePuesto()
+    {
+        $this->calcularSueldos();
+        $this->save();
+    }
+
+    // Relaciones
     public function turno()
     {
         return $this->belongsTo(Turno::class, 'turno_id', 'ID_turno');
     }
 
-    /**
-     * O si es una relación muchos-a-muchos (usando tabla pivote):
-     */
     public function turnos()
     {
         return $this->belongsToMany(Turno::class, 'asigna_turnos', 'ID_empleado', 'ID_turno')
@@ -57,25 +71,46 @@ class Empleado extends Model
 
     public function diasDescanso()
     {
-        return $this->belongsToMany(DiaDescanso::class, 'empleado_dias_descanso', 'dia_descanso_id', 'empleado_id');
+        return $this->belongsToMany(DiaDescanso::class, 'empleado_dias_descanso', 'empleado_id', 'dia_descanso_id');
     }
+
     public function asistencias()
     {
         return $this->hasMany(Asistencia::class, 'ID_empleado');
     }
+
     public function puesto()
     {
-        return $this->belongsTo(Puesto::class, 'id_puesto', 'id_puesto');
+        return $this->belongsTo(Puesto::class, 'id_puesto');
     }
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    // Agrega este método para nombre completo
+    public function nominas() {
+        return $this->hasMany(Nomina::class, 'ID_empleado');
+    }
+    // Accessors
     public function getNombreCompletoAttribute()
     {
         return trim("{$this->nombre} {$this->apellido_paterno} {$this->apellido_materno}");
     }
+
+    public function getHoraEntradaEsperadaAttribute()
+    {
+        if ($this->hora_entrada) {
+            return Carbon::parse($this->hora_entrada);
+        }
+
+        if ($this->turno) {
+            return Carbon::parse($this->turno->hora_entrada);
+        }
+
+        return Carbon::parse('09:00:00');
+    }
+
+    // Métodos adicionales
     public function calcularProximoDescanso()
     {
         if (!$this->diasDescanso || $this->diasDescanso->isEmpty()) {
@@ -84,37 +119,25 @@ class Empleado extends Model
 
         $hoy = now();
         $diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-        $diaActual = $hoy->dayOfWeek; // 0 (domingo) a 6 (sábado)
+        $diaActual = $hoy->dayOfWeek;
 
-        // Obtener los días de descanso ordenados
         $diasDescanso = $this->diasDescanso->pluck('nombre_dia')->map(function($dia) use ($diasSemana) {
             return array_search($dia, $diasSemana);
         })->sort()->values();
 
         foreach ($diasDescanso as $diaNum) {
             if ($diaNum > $diaActual) {
-                $fechaProximo = $hoy->next($diaNum);
                 return [
                     'dia' => $diasSemana[$diaNum],
-                    'fecha' => $fechaProximo
+                    'fecha' => $hoy->next($diaNum)
                 ];
             }
         }
 
-        // Si no hay más días esta semana, tomar el primero de la siguiente semana
         $primerDiaDescanso = $diasDescanso->first();
-        $fechaProximo = $hoy->next($primerDiaDescanso);
-
         return [
             'dia' => $diasSemana[$primerDiaDescanso],
-            'fecha' => $fechaProximo
+            'fecha' => $hoy->next($primerDiaDescanso)
         ];
     }
-
-// Y añade el accessor a los appends
-    protected $appends = ['nombre_completo'];
-
-
-
 }
-

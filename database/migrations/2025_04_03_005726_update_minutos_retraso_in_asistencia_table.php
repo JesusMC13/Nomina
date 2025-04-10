@@ -12,18 +12,20 @@ class UpdateMinutosRetrasoInAsistenciaTable extends Migration
      */
     public function up()
     {
-        // Corrige los valores existentes que excedan 1440 minutos (24 horas)
-        DB::statement('UPDATE asistencia SET minutos_retraso = LEAST(minutos_retraso, 1440) WHERE minutos_retraso > 1440');
+        // Verificar explícitamente que la columna existe antes de actualizar
+        if (Schema::hasColumn('asistencia', 'minutos_retraso')) {
+            DB::table('asistencia')
+                ->whereNotNull('minutos_retraso')
+                ->where('minutos_retraso', '>', 1440)
+                ->update([
+                    'minutos_retraso' => DB::raw('LEAST(minutos_retraso, 1440)')
+                ]);
+        }
     }
 
-    /**
-     * Revierte las migraciones.
-     *
-     * @return void
-     */
     public function down()
     {
         // No es necesario revertir esta operación
-        // (No podemos recuperar los valores originales que excedían 1440)
+        // (no podemos determinar los valores originales)
     }
 }

@@ -44,7 +44,7 @@ class AplicarDescuentoController extends Controller
 
             // Calcular total de descuentos
             $empleado->total_descuento = $empleado->asistencias->sum(function($asistencia) use ($empleado) {
-                return $this->calcularDescuentoMXN($empleado, $asistencia->minutos_retraso);
+                return $this->calcularDescuentoMXN($empleado, $asistencia->minutos_retraso, $asistencia);
             });
 
             return $empleado;
@@ -118,7 +118,7 @@ class AplicarDescuentoController extends Controller
             ->orderBy('fecha', 'desc')
             ->get()
             ->map(function($asistencia) use ($empleado) {
-                $descuento = $this->calcularDescuentoMXN($empleado, $asistencia->minutos_retraso);
+                $descuento = $this->calcularDescuentoMXN($empleado, $asistencia->minutos_retraso, $asistencia);
 
                 return [
                     'fecha' => Carbon::parse($asistencia->fecha)->format('d/m/Y'),
@@ -140,6 +140,8 @@ class AplicarDescuentoController extends Controller
         ]);
     }
 
+
+
     public function getRetardosEmpleado($id, Request $request)
     {
         $fechaInicio = $request->input('fecha_inicio', now()->startOfMonth()->format('Y-m-d'));
@@ -153,7 +155,7 @@ class AplicarDescuentoController extends Controller
             ->orderBy('fecha', 'desc')
             ->get()
             ->map(function($asistencia) use ($empleado) {
-                $descuento = $this->calcularDescuentoMXN($empleado, $asistencia->minutos_retraso);
+                $descuento = $this->calcularDescuentoMXN($empleado, $asistencia->minutos_retraso, $asistencia);
 
                 return [
                     'ID_asistencia' => $asistencia->ID_asistencia,
@@ -171,36 +173,37 @@ class AplicarDescuentoController extends Controller
         return response()->json($retardos);
     }
 
-    private function calcularDescuentoMXN($empleado, $minutosRetraso)
+    private function calcularDescuentoMXN($empleado, $minutosRetraso, $asistencia = null)
     {
-        // Tolerancia de 10 minutos
-        if ($minutosRetraso <= 10) {
+        if ($minutosRetraso <= self::TOLERANCIA_MINUTOS) {
             return 0;
         }
 
-        // Definir tarifas por puesto
-        $tarifas = [
-            'Gerente' => 50,
-            'Supervisor' => 40,
-            'Cocinero' => 35,
-            'Bartender' => 30,
-            'Mesero' => 25,
-            'Almacenista' => 25,
-            'Ayudante de cocina' => 20,
-            // Agrega otros puestos según necesites
-        ];
+        $tarifa = self::TARIFAS_DESCUENTO[$empleado->puesto->nombre_puesto ?? 'default'] ?? 25;
+        $minutosDescontables = $minutosRetraso - self::TOLERANCIA_MINUTOS;
+        $bloques = ceil($minutosDescontables / self::BLOQUE_MINUTOS);
+        $monto = $bloques * $tarifa;
 
-        $puesto = $empleado->puesto->nombre_puesto ?? 'default';
-        $tarifa = $tarifas[$puesto] ?? 25; // Valor por defecto
+        // Solo crear registro si se proporciona la asistencia
+        if ($asistencia) {
+            Descuento::updateOrCreate(
+                [
+                    'ID_empleado' => $empleado->ID_empleado,
+                    'ID_asistencia' => $asistencia->ID_asistencia
+                ],
+                [
+                    'monto' => $monto,
+                    'tipo_descuento' => 'retardo',
+                    'fecha' => $asistencia->fecha,
+                    'origen' => 'retardo',
+                    'comentarios' => 'Descuento por retardo de ' . $minutosRetraso . ' minutos',
+                    'aplicado_en_nomina' => false,
+                    'visible_empleado' => true
+                ]
+            );
+        }
 
-        // Calcular minutos descontables (después de tolerancia)
-        $minutosDescontables = $minutosRetraso - 10;
-
-        // Calcular bloques de 15 minutos
-        $bloques = ceil($minutosDescontables / 15);
-
-        // Calcular descuento total
-        return $bloques * $tarifa;
+        return $monto;
     }
     private function generarDetalleCalculo($empleado, $minutosRetraso, $montoDescuento)
     {

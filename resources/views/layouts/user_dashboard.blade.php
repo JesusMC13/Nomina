@@ -56,7 +56,7 @@
 
             <!-- Consulta de Descuentos -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ asset('views/adminn/empleado/descuentos.html') }}">
+                <a class="nav-link" href="{{ route('empleado.descuentos.index') }}">
                     <i class="fas fa-money-bill-wave"></i>
                     <span>Consulta de Descuentos</span>
                 </a>
@@ -64,19 +64,12 @@
 
             <!-- Consulta de Nómina -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ asset('views/adminn/empleado/nomina.html') }}">
+                <a class="nav-link" href="{{ route('empleado.nominas.index') }}">
                     <i class="fas fa-file-invoice-dollar"></i>
                     <span>Consulta de Nómina</span>
                 </a>
             </li>
 
-            <!-- Historial Personal -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{ asset('views/adminn/empleado/historial.html') }}">
-                    <i class="fas fa-history"></i>
-                    <span>Historial Personal</span>
-                </a>
-            </li>
 
             <hr class="sidebar-divider d-none d-md-block">
             <div class="text-center d-none d-md-inline">

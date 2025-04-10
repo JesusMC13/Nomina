@@ -111,4 +111,8 @@ class Asistencia extends Model
     {
         return $this->hasOne(Justificacion::class);
     }
+    public function descuentos()
+    {
+        return $this->hasMany(Descuento::class, 'ID_asistencia');
+    }
 }

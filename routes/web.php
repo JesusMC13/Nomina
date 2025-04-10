@@ -21,7 +21,9 @@
     use App\Http\Controllers\DiasDescansoEmpleadoController;
     use App\Http\Controllers\JustificacionController;
     use App\Http\Controllers\AdminJustificacionController;
-
+    use App\Http\Controllers\ReportesController;
+    use App\Http\Controllers\DescuentosController;
+    use App\Http\Controllers\NominaController;
 
     Route::get('/', function () {
         return view('home'); // Redirige a home.blade.php
@@ -183,13 +185,29 @@ Route::post('/empleados/{ID_empleado}/asignar-turno', [AsignarTurnoController::c
     });
 
 
+    Route::prefix('adminn/reportes')->name('adminn.reportes.')->middleware('auth')->group(function () {
+        Route::get('/', [ReportesController::class, 'index'])->name('index');
+        Route::get('/generar', [ReportesController::class, 'generar'])->name('generar');
+        Route::post('/generar', [ReportesController::class, 'store'])->name('store');
+        Route::get('/ver', [ReportesController::class, 'ver'])->name('ver');
+        Route::get('/{id}', [ReportesController::class, 'show'])->name('show');
+
+        // Ruta para exportar a Excel (si es necesaria)
+        Route::get('/exportar/{id}', [ReportesController::class, 'exportar'])->name('exportar');
+
+        // Ruta para exportar a PDF (corregida)
+        Route::get('/{id}/exportar-pdf', [ReportesController::class, 'exportarPdf'])->name('exportar-pdf');
+
+        // Ruta para eliminar
+        Route::delete('/{id}', [ReportesController::class, 'destroy'])->name('destroy');
+    });
 
 
 
 
 
 
-//dashboard empleado use App\Http\Controllers\Empleado\AsistenciaController;
+    //dashboard empleado use App\Http\Controllers\Empleado\AsistenciaController;
 
 
 Route::prefix('empleado')->middleware(['auth'])->group(function () {
@@ -226,10 +244,36 @@ Route::prefix('empleado')->middleware(['auth'])->group(function () {
 
 
 
+    // Rutas para empleados (acceso solo a empleados autenticados)
+    // Rutas para empleados (consulta de sus descuentos)
+    Route::middleware(['auth'])->prefix('empleado')->name('empleado.')->group(function () {
+        Route::get('/descuentos', [DescuentosController::class, 'index'])->name('descuentos.index');
+        Route::get('/descuentos/{id}', [DescuentosController::class, 'show'])->name('descuentos.show');
+    });
 
+    // routes/web.php
 
+    Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
+        // Rutas existentes de descuentos
+        Route::resource('descuentos', DescuentosController::class)->except(['index', 'show']);
 
+        // Nuevas rutas para nóminas (solo accesibles por admin)
+        Route::get('nominas/create', [NominaController::class, 'create'])->name('nominas.create');
+        Route::post('nominas/generar', [NominaController::class, 'generarNomina'])->name('nominas.generate');
+    });
 
+    Route::middleware(['auth'])->prefix('empleado')->group(function() {
+        // ... otras rutas existentes
 
+        // Rutas de visualización (accesibles por empleados)
+        Route::get('/nominas', [NominaController::class, 'index'])->name('empleado.nominas.index');
+        Route::get('/nominas/{nomina}', [NominaController::class, 'show'])->name('empleado.nominas.show');
+    });
+    // routes/web.php
+    // Para empleados
+    Route::middleware(['auth'])->prefix('empleado')->group(function() {
+        Route::get('/nominas', [NominaController::class, 'index'])->name('empleado.nominas.index');
+        Route::get('/nominas/{nomina}', [NominaController::class, 'show'])->name('empleado.nominas.show');
+    });
 
 

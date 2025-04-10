@@ -14,11 +14,16 @@ class AlterAsistenciaMinutosRetraso extends Migration
     // database/migrations/xxxx_alter_asistencia_minutos_retraso.php
     public function up()
     {
-        DB::statement('ALTER TABLE asistencia MODIFY minutos_retraso INT');
+        // Verificar que la columna existe antes de modificarla
+        if (Schema::hasColumn('asistencia', 'minutos_retraso')) {
+            Schema::table('asistencia', function (Blueprint $table) {
+                $table->integer('minutos_retraso')->nullable()->change();
+            });
+        }
     }
 
     public function down()
     {
-        DB::statement('ALTER TABLE asistencia MODIFY minutos_retraso SMALLINT');
+        // No es necesario revertir en este caso
     }
 }

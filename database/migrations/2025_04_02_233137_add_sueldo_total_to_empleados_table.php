@@ -14,7 +14,11 @@ class AddSueldoTotalToEmpleadosTable extends Migration
     public function up()
     {
         Schema::table('empleados', function (Blueprint $table) {
-            $table->decimal('sueldo_total', 10, 2)->nullable()->after('puesto_id');
+            if (!Schema::hasColumn('empleados', 'sueldo_total')) {
+                $table->decimal('sueldo_total', 10, 2)
+                    ->nullable()
+                    ->after('id_puesto'); // Colocamos después de id_puesto
+            }
         });
     }
 
@@ -24,4 +28,5 @@ class AddSueldoTotalToEmpleadosTable extends Migration
             $table->dropColumn('sueldo_total');
         });
     }
+
 }
