@@ -7,255 +7,124 @@
     <title>Administrador - Dashboard</title>
     <link href="{{ asset('theme/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('theme/css/sb-admin-2.min.css') }}" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6c5ce7;
-            --primary-light: #a29bfe;
-            --secondary: #00cec9;
-            --dark: #2d3436;
-            --light: #f5f6fa;
-            --accent: #fd79a8;
+            --azul-oscuro: #1a3e72;
+            --azul-medio: #2a5a9a;
+            --azul-claro: #3a76c2;
+            --azul-hover: #4d8fd8;
+            --texto-claro: #f8f9fa;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fc;
+            background-color: #f5f7fa;
         }
 
-        /* Sidebar Glassmorphism */
+        /* Sidebar Azul */
         .sidebar {
-            background: rgba(30, 30, 60, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(180deg, var(--azul-oscuro) 0%, var(--azul-medio) 100%);
         }
 
         .sidebar-brand {
-            background: rgba(255, 255, 255, 0.1);
-            margin: 15px;
-            border-radius: 12px;
-            padding: 15px 0;
-            transition: all 0.4s ease;
-        }
-
-        .sidebar-brand:hover {
-            transform: translateY(-3px);
-            background: rgba(108, 92, 231, 0.3);
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .sidebar-brand-icon {
-            color: var(--accent);
-            font-size: 1.5rem;
-            animation: pulse 3s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 1; }
+            color: var(--texto-claro);
         }
 
         .sidebar-brand-text {
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: white;
-            font-size: 1.1rem;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            color: var(--texto-claro);
         }
 
         .nav-item {
-            margin: 8px 15px;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.3s ease;
         }
 
         .nav-item:hover {
-            transform: translateX(5px);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .nav-link {
-            color: rgba(255, 255, 255, 0.85);
-            font-weight: 500;
-            padding: 12px 20px;
-            position: relative;
-            transition: all 0.3s;
+            color: rgba(255, 255, 255, 0.8);
         }
 
         .nav-link i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-            color: var(--primary-light);
-            transition: all 0.3s;
+            color: rgba(255, 255, 255, 0.6);
         }
 
-        .nav-item:hover .nav-link {
-            color: white;
-        }
-
+        .nav-item:hover .nav-link,
         .nav-item:hover .nav-link i {
-            color: var(--accent);
-            transform: scale(1.1);
+            color: var(--texto-claro);
         }
 
-        .nav-item.active {
-            background: rgba(108, 92, 231, 0.3);
-            box-shadow: inset 3px 0 0 var(--accent);
+        /* Topbar Azul */
+        .topbar {
+            background: linear-gradient(90deg, var(--azul-medio) 0%, var(--azul-claro) 100%);
         }
 
-        .nav-item.active .nav-link {
-            color: white;
+        .topbar .nav-link {
+            color: var(--texto-claro) !important;
         }
 
+        /* Dropdown Menu */
         .dropdown-menu {
-            background: rgba(45, 52, 54, 0.95);
-            backdrop-filter: blur(5px);
+            background-color: var(--azul-medio);
             border: none;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            overflow: hidden;
         }
 
         .dropdown-item {
             color: rgba(255, 255, 255, 0.8);
-            padding: 10px 20px;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .dropdown-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 3px;
-            background: var(--accent);
-            transform: scaleY(0);
-            transition: transform 0.3s;
         }
 
         .dropdown-item:hover {
-            color: white;
-            background: rgba(108, 92, 231, 0.3);
-            padding-left: 25px;
+            background-color: var(--azul-hover);
+            color: var(--texto-claro);
         }
 
-        .dropdown-item:hover::before {
-            transform: scaleY(1);
+        /* Cards */
+        .card {
+            border: none;
+            border-left: 4px solid var(--azul-claro);
         }
 
-        /* Topbar Gradient */
-        .topbar {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            height: 70px;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        .topbar::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to bottom right,
-                rgba(255, 255, 255, 0.1),
-                rgba(255, 255, 255, 0),
-                rgba(255, 255, 255, 0.1)
-            );
-            transform: rotate(30deg);
-            animation: shine 8s infinite linear;
+        /* Botones */
+        .btn-primary {
+            background-color: var(--azul-claro);
+            border-color: var(--azul-claro);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--azul-hover);
+            border-color: var(--azul-hover);
         }
 
         /* User Profile */
         .img-profile {
-            width: 40px;
-            height: 40px;
             border: 2px solid white;
-            box-shadow: 0 0 0 2px var(--accent);
-            transition: all 0.3s;
+            box-shadow: 0 0 0 2px var(--azul-claro);
         }
 
-        .img-profile:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 0 3px var(--accent), 0 0 20px rgba(253, 121, 168, 0.5);
+        /* Scroll to top */
+        .scroll-to-top {
+            background-color: var(--azul-claro);
         }
 
-        /* Dashboard Content */
-        .dashboard-header {
-            border-bottom: 2px solid var(--primary);
-            position: relative;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-        }
-
-        .dashboard-header::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 50px;
-            height: 4px;
-            background: var(--accent);
-        }
-
-        /* Cards */
-        .info-card {
-            border: none;
-            border-radius: 15px;
-            padding: 25px;
-            transition: all 0.4s;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            background: white;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(108, 92, 231, 0.1);
-        }
-
-        .info-card .icon {
-            font-size: 2.5rem;
-            opacity: 0.2;
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            transition: all 0.3s;
-        }
-
-        .info-card:hover .icon {
-            opacity: 0.3;
-            transform: scale(1.1);
-        }
-
-        /* Floating Animation */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .floating {
-            animation: float 6s ease-in-out infinite;
+        .scroll-to-top:hover {
+            background-color: var(--azul-hover);
         }
     </style>
 </head>
 
 <body id="page-top">
 <div id="wrapper">
-    <!-- Sidebar - Manteniendo tus rutas exactamente como las tenías -->
-    <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-user-cog"></i>
@@ -383,85 +252,79 @@
                 </ul>
             </nav>
 
-            <!-- Main Content - Manteniendo tu estructura pero con mejor estilo -->
             <div class="container-fluid">
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800 dashboard-header">Panel de Control</h1>
-                </div>
+                <h1 class="h3 mb-4 text-gray-800">Panel de Control</h1>
 
                 <!-- Content Row -->
                 <div class="row">
                     <!-- Empleados Card -->
                     <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="info-card">
-                            <div class="icon text-primary">
-                                <i class="fas fa-users"></i>
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Empleados Activos</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">42</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-users fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-primary">42</div>
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Empleados Activos</div>
                         </div>
                     </div>
 
                     <!-- Asistencias Card -->
                     <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="info-card">
-                            <div class="icon text-success">
-                                <i class="fas fa-calendar-check"></i>
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            Asistencia Hoy</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">92%</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-calendar-check fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-success">92%</div>
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Asistencia Hoy</div>
                         </div>
                     </div>
 
                     <!-- Retardos Card -->
                     <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="info-card">
-                            <div class="icon text-warning">
-                                <i class="fas fa-clock"></i>
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Retardos Hoy</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-clock fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-warning">5</div>
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Retardos Hoy</div>
                         </div>
                     </div>
 
                     <!-- Reportes Card -->
                     <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="info-card">
-                            <div class="icon text-info">
-                                <i class="fas fa-file-invoice-dollar"></i>
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-info">15</div>
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Reportes Generados</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quick Actions -->
-                <div class="row">
-                    <div class="col-lg-12 mb-4">
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Acciones Rápidas</h6>
-                            </div>
-                            <div class="card-body text-center">
-                                <a href="{{ route('adminn.empleados.index') }}" class="btn btn-primary btn-icon-split mx-2 mb-3">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-users"></i>
-                                        </span>
-                                    <span class="text">Empleados</span>
-                                </a>
-                                <a href="{{ route('adminn.asistencias.index') }}" class="btn btn-success btn-icon-split mx-2 mb-3">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-calendar-check"></i>
-                                        </span>
-                                    <span class="text">Asistencias</span>
-                                </a>
-                                <a href="{{ route('adminn.reportes.index') }}" class="btn btn-info btn-icon-split mx-2 mb-3">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-file-invoice-dollar"></i>
-                                        </span>
-                                    <span class="text">Reportes</span>
-                                </a>
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                            Reportes Generados</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">15</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -479,27 +342,5 @@
 <script src="{{ asset('theme/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('theme/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 <script src="{{ asset('theme/js/sb-admin-2.min.js') }}"></script>
-<script>
-    // Efecto de iluminación al pasar el mouse por los elementos del menú
-    $(document).ready(function() {
-        $('.nav-item').hover(
-            function() {
-                $(this).find('.nav-link i').css('text-shadow', '0 0 10px rgba(253, 121, 168, 0.7)');
-            },
-            function() {
-                $(this).find('.nav-link i').css('text-shadow', 'none');
-            }
-        );
-
-        // Efecto de onda en el sidebar
-        $('.sidebar').mousemove(function(e) {
-            const x = e.pageX - $(this).offset().left;
-            const y = e.pageY - $(this).offset().top;
-
-            $(this).css('background',
-                `radial-gradient(circle at ${x}px ${y}px, rgba(108, 92, 231, 0.3), rgba(30, 30, 60, 0.85))`);
-        });
-    });
-</script>
 </body>
 </html>

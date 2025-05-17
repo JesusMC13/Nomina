@@ -42,34 +42,6 @@
                 </button>
 
                 <!-- Topbar Navbar -->
-                <ul class="navbar-nav ml-auto">
-
-                    @if(!auth()->check())
-                    <li class="nav-item mx-2">
-                        <a class="nav-link" href="{{ route('login.index') }}" style="color: black;">Entrar</a>
-                    </li>
-                    <li class="nav-item mx-2">
-                        <a class="nav-link" href="{{ route('register.index') }}" style="color: black;">Registrar</a>
-                    </li>
-                    @else
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->name }}</span>
-                                <img class="img-profile rounded-circle"
-                                     src="https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_400,h_400/https:/appsdejoseluis.com/wp-content/uploads/2020/04/face_co.png">
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Salir
-                                </a>
-                            </div>
-                        </li>
-                    @endif
-                </ul>
 
             </nav>
             <!-- End of Topbar -->
