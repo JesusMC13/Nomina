@@ -53,10 +53,6 @@
                                                 <span class="text-muted small">Puesto:</span>
                                                 <p class="mb-0 font-weight-bold">{{ $empleado->puesto->nombre_puesto ?? 'No asignado' }}</p>
                                             </div>
-                                            <div class="mr-4 mb-2">
-                                                <span class="text-muted small">ID Empleado:</span>
-                                                <p class="mb-0 font-weight-bold">#{{ $empleado->id ?? '' }}</p>
-                                            </div>
                                             <div class="mb-2">
                                                 <span class="text-muted small">Departamento:</span>
                                                 <p class="mb-0 font-weight-bold">{{ $empleado->departamento->nombre ?? 'No asignado' }}</p>
@@ -207,16 +203,6 @@
                         </div>
 
                         <!-- Sección de acciones -->
-                        @isset($empleado->turno)
-                            <div class="mt-4 d-flex flex-wrap justify-content-between">
-                                <button class="btn btn-outline-primary mb-2" data-toggle="modal" data-target="#requestChangeModal">
-                                    <i class="fas fa-exchange-alt mr-2"></i>Solicitar Cambio de Horario
-                                </button>
-                                <button class="btn btn-primary mb-2" id="downloadSchedule">
-                                    <i class="fas fa-file-pdf mr-2"></i>Descargar Horario (PDF)
-                                </button>
-                            </div>
-                        @endisset
                     </div>
 
                     <div class="card-footer bg-white border-top-0 text-muted small d-flex justify-content-between">
